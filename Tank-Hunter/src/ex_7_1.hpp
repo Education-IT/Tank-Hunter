@@ -14,45 +14,32 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 #include <string>
+#include "SOIL/SOIL.h"
 
 
-namespace texture {
-	GLuint earth;
-	GLuint clouds;
-	GLuint moon;
-	GLuint ship;
-
-	GLuint grid;
-
-	GLuint earthNormal;
-	GLuint asteroidNormal;
-	GLuint shipNormal;
-}
-
+Core::RenderContext sphereContext;
+Core::RenderContext shipContext;
 
 GLuint program;
-GLuint programSun;
-GLuint programTex;
-GLuint programEarth;
-GLuint programProcTex;
+
 Core::Shader_Loader shaderLoader;
 
-Core::RenderContext shipContext;
-Core::RenderContext sphereContext;
+
+
 
 glm::vec3 cameraPos = glm::vec3(-4.f, 0, 0);
 glm::vec3 cameraDir = glm::vec3(1.f, 0.f, 0.f);
 
 glm::vec3 spaceshipPos = glm::vec3(-4.f, 0, 0);
 glm::vec3 spaceshipDir = glm::vec3(1.f, 0.f, 0.f);
-GLuint VAO,VBO;
+GLuint VAO, VBO;
 
 float aspectRatio = 1.f;
 
 glm::mat4 createCameraMatrix()
 {
-	glm::vec3 cameraSide = glm::normalize(glm::cross(cameraDir,glm::vec3(0.f,1.f,0.f)));
-	glm::vec3 cameraUp = glm::normalize(glm::cross(cameraSide,cameraDir));
+	glm::vec3 cameraSide = glm::normalize(glm::cross(cameraDir, glm::vec3(0.f, 1.f, 0.f)));
+	glm::vec3 cameraUp = glm::normalize(glm::cross(cameraSide, cameraDir));
 	glm::mat4 cameraRotrationMatrix = glm::mat4({
 		cameraSide.x,cameraSide.y,cameraSide.z,0,
 		cameraUp.x,cameraUp.y,cameraUp.z ,0,
@@ -67,21 +54,21 @@ glm::mat4 createCameraMatrix()
 
 glm::mat4 createPerspectiveMatrix()
 {
-	
+
 	glm::mat4 perspectiveMatrix;
 	float n = 0.05;
-	float f = 20.;
-	float a1 = glm::min(aspectRatio, 1.f);
-	float a2 = glm::min(1 / aspectRatio, 1.f);
+	float f = 20;
+	//float a1 = glm::min(aspectRatio, 1.f);
+	//float a2 = glm::min(1 / aspectRatio, 1.f);
 	perspectiveMatrix = glm::mat4({
 		1,0.,0.,0.,
 		0.,aspectRatio,0.,0.,
-		0.,0.,(f+n) / (n - f),2*f * n / (n - f),
+		0.,0.,(f + n) / (n - f),2 * f * n / (n - f),
 		0.,0.,-1.,0.,
 		});
 
-	
-	perspectiveMatrix=glm::transpose(perspectiveMatrix);
+
+	perspectiveMatrix = glm::transpose(perspectiveMatrix);
 
 	return perspectiveMatrix;
 }
@@ -94,21 +81,16 @@ void drawObjectColor(Core::RenderContext& context, glm::mat4 modelMatrix, glm::v
 	glUniformMatrix4fv(glGetUniformLocation(program, "transformation"), 1, GL_FALSE, (float*)&transformation);
 	glUniformMatrix4fv(glGetUniformLocation(program, "modelMatrix"), 1, GL_FALSE, (float*)&modelMatrix);
 	glUniform3f(glGetUniformLocation(program, "color"), color.x, color.y, color.z);
-	glUniform3f(glGetUniformLocation(program, "lightPos"), 0,0,0);
-	Core::DrawContext(context);
-
-}
-void drawObjectTexture(Core::RenderContext& context, glm::mat4 modelMatrix, GLuint textureID) {
-	glUseProgram(programTex);
-	glm::mat4 viewProjectionMatrix = createPerspectiveMatrix() * createCameraMatrix();
-	glm::mat4 transformation = viewProjectionMatrix * modelMatrix;
-	glUniformMatrix4fv(glGetUniformLocation(program, "transformation"), 1, GL_FALSE, (float*)&transformation);
-	glUniformMatrix4fv(glGetUniformLocation(program, "modelMatrix"), 1, GL_FALSE, (float*)&modelMatrix);
 	glUniform3f(glGetUniformLocation(program, "lightPos"), 0, 0, 0);
-	Core::SetActiveTexture(textureID, "colorTexture", programTex, 0);
 	Core::DrawContext(context);
 
 }
+
+
+
+
+
+
 void renderScene(GLFWwindow* window)
 {
 	glClearColor(0.0f, 0.3f, 0.3f, 1.0f);
@@ -117,13 +99,17 @@ void renderScene(GLFWwindow* window)
 	float time = glfwGetTime();
 
 
+	glDepthMask(GL_FALSE);
+	
+	glDepthMask(GL_TRUE);
 
-	drawObjectTexture(sphereContext, glm::mat4(), texture::ship);
 
-	drawObjectTexture(sphereContext, glm::eulerAngleY(time / 3) * glm::translate(glm::vec3(4.f, 0, 0)) * glm::scale(glm::vec3(0.3f)), texture::earth);
+	drawObjectColor(sphereContext, glm::mat4(), glm::vec3(1.f, 0, 0));
 
-	drawObjectTexture(sphereContext,
-		glm::eulerAngleY(time / 3) * glm::translate(glm::vec3(4.f, 0, 0)) * glm::eulerAngleY(time) * glm::translate(glm::vec3(1.f, 0, 0)) * glm::scale(glm::vec3(0.1f)), texture::moon);
+	drawObjectColor(sphereContext, glm::eulerAngleY(time / 3) * glm::translate(glm::vec3(4.f, 0, 0)) * glm::scale(glm::vec3(0.3f)) * glm::eulerAngleY(time * 2), glm::vec3(1.f, 0, 0));
+
+	drawObjectColor(sphereContext,
+		glm::eulerAngleY(time / 3) * glm::translate(glm::vec3(4.f, 0, 0)) * glm::eulerAngleY(time) * glm::translate(glm::vec3(1.f, 0, 0)) * glm::scale(glm::vec3(0.1f)), glm::vec3(1.f, 0, 0));
 
 	glm::vec3 spaceshipSide = glm::normalize(glm::cross(spaceshipDir, glm::vec3(0.f, 1.f, 0.f)));
 	glm::vec3 spaceshipUp = glm::normalize(glm::cross(spaceshipSide, spaceshipDir));
@@ -134,15 +120,11 @@ void renderScene(GLFWwindow* window)
 		0.,0.,0.,1.,
 		});
 
-
-	//drawObjectColor(shipContext,
-	//	glm::translate(cameraPos + 1.5 * cameraDir + cameraUp * -0.5f) * inveseCameraRotrationMatrix * glm::eulerAngleY(glm::pi<float>()),
-	//	glm::vec3(0.3, 0.3, 0.5)
-	//	);
-	drawObjectTexture(shipContext,
+	drawObjectColor(shipContext,
 		glm::translate(spaceshipPos) * specshipCameraRotrationMatrix * glm::eulerAngleY(glm::pi<float>()),
-		texture::ship
+		glm::vec3(1.f, 0, 0)
 	);
+	
 
 	glUseProgram(0);
 	glfwSwapBuffers(window);
@@ -171,19 +153,11 @@ void init(GLFWwindow* window)
 
 	glEnable(GL_DEPTH_TEST);
 	program = shaderLoader.CreateProgram("shaders/shader_5_1.vert", "shaders/shader_5_1.frag");
-	programTex = shaderLoader.CreateProgram("shaders/shader_5_1_tex.vert", "shaders/shader_5_1_tex.frag");
-	programEarth = shaderLoader.CreateProgram("shaders/shader_5_1_tex.vert", "shaders/shader_5_1_tex.frag");
-	programProcTex = shaderLoader.CreateProgram("shaders/shader_5_1_tex.vert", "shaders/shader_5_1_tex.frag");
+	
+
 
 	loadModelToContext("./models/sphere.obj", sphereContext);
 	loadModelToContext("./models/spaceship.obj", shipContext);
-
-	texture::earth = Core::LoadTexture("textures/earth.png");
-	texture::ship = Core::LoadTexture("textures/spaceship.jpg");
-	//texture::clouds = Core::LoadTexture("textures/clouds.jpg");
-	texture::moon = Core::LoadTexture("textures/moon.jpg");
-	//texture::grid = Core::LoadTexture("textures/grid.png");
-
 }
 
 void shutdown(GLFWwindow* window)
@@ -196,8 +170,8 @@ void processInput(GLFWwindow* window)
 {
 	glm::vec3 spaceshipSide = glm::normalize(glm::cross(spaceshipDir, glm::vec3(0.f, 1.f, 0.f)));
 	glm::vec3 spaceshipUp = glm::vec3(0.f, 1.f, 0.f);
-	float angleSpeed = 0.05f;
-	float moveSpeed = 0.025f;
+	float angleSpeed = 0.0125f;
+	float moveSpeed = 0.0124f;
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
 		glfwSetWindowShouldClose(window, true);
 	}

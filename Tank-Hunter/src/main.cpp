@@ -5,13 +5,15 @@
 #include "ext.hpp"
 #include <iostream>
 #include <cmath>
-
+#include "MainMenu.h"
 #include "ex_7_1.hpp"
 
 
 
 int main(int argc, char** argv)
 {
+	
+	//Menu::start_menu();
 	// inicjalizacja glfw
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -23,7 +25,7 @@ int main(int argc, char** argv)
 #endif
 
 	// tworzenie okna za pomoca glfw
-	GLFWwindow* window = glfwCreateWindow(500, 500, "FirstWindow", NULL, NULL);
+	GLFWwindow* window = glfwCreateWindow(800, 800, "Tank-Hunter", NULL, NULL);
 	if (window == NULL)
 	{
 		std::cout << "Failed to create GLFW window" << std::endl;
@@ -34,13 +36,13 @@ int main(int argc, char** argv)
 
 	// ladowanie OpenGL za pomoca glew
 	glewInit();
-	glViewport(0, 0, 500, 500);
+	glViewport(0, 0, 800, 800);
 
 	init(window);
 
 	// uruchomienie glownej petli
 	renderLoop(window);
-
+	
 	shutdown(window);
 	glfwTerminate();
 	return 0;
