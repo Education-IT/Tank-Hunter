@@ -1,0 +1,30 @@
+# 3ds Max Wavefront OBJ Exporter v0.97b - (c)2007 guruware
+# File Created: 10.11.2016 00:20:18
+
+newmtl body_metal
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.4078 0.5137 0.4000
+	Kd 0.4078 0.5137 0.4000
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka H:\3D\Work\Fun\_Finished_projects\UAZ-452\Uaz 452\Uaz_452_albedo.jpg
+	map_Kd H:\3D\Work\Fun\_Finished_projects\UAZ-452\Uaz 452\Uaz_452_albedo.jpg
+
+newmtl windows
+	Ns 10.0000
+	Ni 1.5000
+	d 0.1500
+	Tr 0.8500
+	Tf 0.1500 0.1500 0.1500 
+	illum 2
+	Ka 0.5882 0.9176 0.9647
+	Kd 0.5882 0.9176 0.9647
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka H:\3D\Work\Fun\_Finished_projects\UAZ-452\Uaz 452\Uaz_glass_albedo.jpg
+	map_Kd H:\3D\Work\Fun\_Finished_projects\UAZ-452\Uaz 452\Uaz_glass_albedo.jpg
