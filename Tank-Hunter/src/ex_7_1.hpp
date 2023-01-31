@@ -33,20 +33,106 @@ float yaw = -90.0f;	// yaw is initialized to -90.0 degrees since a yaw of 0.0 re
 float pitch = 0.0f;
 float lastX = 800.0f / 2.0;
 float lastY = 800.0f / 2.0;
-
-
+bool animacja = false;
+bool celowanie = false;
+bool celowanie2 = false;
 //////////
 
 
-glm::vec3 cameraPos = glm::vec3(-5.f, 0.f, 0.f);
+glm::vec3 cameraPos = glm::vec3(-3.f, 0.f, -4.f);
 glm::vec3 cameraDir = glm::vec3(1.f, 0.f, 0.f);
 
-glm::vec3 RPG7_POS = glm::vec3(-5.f, 0.f, 0.f);
+glm::vec3 RPG7_POS = glm::vec3(-3.f, 0.f, -4.f);
 
 glm::vec3 RPG7_DIR = glm::vec3(1.f, 0.f, 0.f);
 GLuint VAO, VBO;
 
 float aspectRatio = 1.f; 
+
+
+float deltaTime = 0.f;
+float TIMES = 0;
+float TIMES2 = 0;
+float deltaTime2 = 0.f;
+
+void updateDeltaTime2(float time) {
+	//float First time = glfwGetTime();
+	
+	if (TIMES <= 0) {
+		TIMES = glfwGetTime();
+		
+	}
+	
+	deltaTime = time - TIMES;
+	if (deltaTime <= 3.5) {
+		if (deltaTime >= 1.75) {
+
+			if (TIMES2 <= 0) {
+				TIMES2 = glfwGetTime();
+				deltaTime2 = 1.75;
+			}
+
+			deltaTime = deltaTime2 - (time - TIMES2);
+
+
+		}
+			
+		
+	}
+	else {
+		TIMES = 0;
+		TIMES2 = 0;
+		animacja = !animacja;
+		std::cout << "KONIEC CZASU!";
+	}
+	std::cout << deltaTime;
+}
+
+void updateDeltaTime(float time) {
+	//float First time = glfwGetTime();
+
+	if (TIMES <= 0) {
+		TIMES = glfwGetTime();
+
+	}
+
+	deltaTime = time - TIMES;
+
+
+	
+
+	if (celowanie2) {
+		if (TIMES2 <= 0) {
+			TIMES2 = glfwGetTime();
+			deltaTime2 = 0.9;
+		}
+
+		deltaTime = deltaTime2 - (time - TIMES2);
+		if (deltaTime <= 0) {
+			TIMES = 0;
+			TIMES2 = 0;
+			animacja = false;
+			celowanie2 = false;
+				celowanie = false;
+
+		}
+	}
+	else {
+		if (deltaTime <= 0.9) {
+			celowanie = false;
+
+
+		}
+		else {
+			//animacja = !animacja;
+			celowanie = true;
+			deltaTime = 0.9;
+
+		}
+	}
+	
+}
+
 
 glm::mat4 createCameraMatrix()
 {
@@ -71,6 +157,7 @@ glm::mat4 createPerspectiveMatrix()
 	float n = 0.01;
 	float f = 20;
 	float formula = 2 * f * n / (n - f);
+	
 
 	perspectiveMatrix = glm::mat4({
 		1,0.,0.,0.,
@@ -111,8 +198,7 @@ void renderScene(GLFWwindow* window)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glm::mat4 transformation;
 	float time = glfwGetTime();
-
-
+	
 	glDepthMask(GL_FALSE);
 	
 	glDepthMask(GL_TRUE);
@@ -134,11 +220,29 @@ void renderScene(GLFWwindow* window)
 		0.,0.,0.,1.,
 		});
 	
+	if (animacja == false && celowanie == false) {
+		drawObjectColor(RPG7,
+			glm::translate(RPG7_POS) * (RPG7_Rotation_Matrix * glm::translate(glm::vec3(0.0f, -0.07f, 0.05f))   /**glm::translate(glm::vec3(-0.10f,-0.0715f,0.03f))*/) * glm::eulerAngleY(1.44f) * glm::scale(glm::vec3(.0005f)), //glm::pi<float>()
+			glm::vec3(0.6f, 0.3f, 1.0f)
+		);
+	}
+	else {
+		//drawObjectColor(RPG7,
+		//	glm::translate(RPG7_POS) * (RPG7_Rotation_Matrix * glm::translate(glm::vec3(0.0f, -0.07f, 0.05f))   /**glm::translate(glm::vec3(-0.10f,-0.0715f,0.03f))*/) * glm::eulerAngleXY(deltaTime/1.2f, 1.44f) * glm::scale(glm::vec3(.0005f)), //glm::pi<float>()
+		//	glm::vec3(0.6f, 0.3f, 1.0f)
+		//);
 
-	drawObjectColor(RPG7,
-		glm::translate(RPG7_POS)  * (RPG7_Rotation_Matrix * glm::translate(glm::vec3(0.0f, -0.07f, 0.05f))   /**glm::translate(glm::vec3(-0.10f,-0.0715f,0.03f))*/) * glm::eulerAngleY(1.44f) * glm::scale(glm::vec3(.0005f)), //glm::pi<float>()
-		glm::vec3(0.6f, 0.3f, 1.0f)
-	);
+		drawObjectColor(RPG7,
+			glm::translate(RPG7_POS) * (RPG7_Rotation_Matrix * glm::translate(glm::vec3(0.0f-deltaTime/9, -0.07f - deltaTime/600, 0.05f - deltaTime/45))) * glm::eulerAngleY(1.44f) * glm::scale(glm::vec3(.0005f)), //glm::pi<float>()
+			glm::vec3(0.6f, 0.3f, 1.0f)
+		);
+		if (celowanie == false) {
+			updateDeltaTime(time);
+		}
+			
+		
+
+	}
 	
 
 	glUseProgram(0);
@@ -162,8 +266,34 @@ void loadModelToContext(std::string path, Core::RenderContext& context)
 	context.initFromAssimpMesh(scene->mMeshes[0]);
 }
 
+void mouse_button_callback(GLFWwindow* window, int button, int action, int mods) //uruchamia siê tylko gdy klikniemy lewy przycisk myszy.
+{
+	double xpos, ypos;
+	glfwGetCursorPos(window, &xpos, &ypos);
+
+	//printf("%f,%f\n", xpos, ypos);
+	
+	
+	if (button == GLUT_LEFT_BUTTON && action == GLUT_DOWN) {
+		animacja = !animacja;
+		if (celowanie == true) {
+			celowanie = false;
+			TIMES = 0;
+			TIMES2 = 0;
+			animacja = !animacja;
+			celowanie2 = !celowanie2;
+		}
+		std::cout << animacja;
+		
+	}
+  
+}
+
+
 void init(GLFWwindow* window)
 {
+	glfwSetMouseButtonCallback(window, mouse_button_callback); 
+	glfwSetInputMode(window, GLFW_STICKY_MOUSE_BUTTONS, GLFW_TRUE);
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
@@ -254,6 +384,7 @@ void renderLoop(GLFWwindow* window) {
 	while (!glfwWindowShouldClose(window))
 	{
 		glfwSetCursorPosCallback(window, mouse_callback);
+		
 		processInput(window);
 		
 		renderScene(window);
