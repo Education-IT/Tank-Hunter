@@ -13,7 +13,7 @@
 int main(int argc, char** argv)
 {
 	
-	//::start_menu();
+	//Menu::start_menu();
 	// inicjalizacja glfw
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
