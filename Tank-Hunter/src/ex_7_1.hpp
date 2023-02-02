@@ -15,6 +15,18 @@
 #include <assimp/postprocess.h>
 #include <string>
 #include "SOIL/SOIL.h"
+bool Exit;
+bool Forward;
+bool Backward;
+bool Left;
+bool Right;
+bool Jump;
+bool Flash;
+bool Rpg;
+bool AIM;
+bool Action;
+bool AIM_C = false;
+bool Action_C = false;
 
 
 Core::RenderContext sphereContext;
@@ -394,7 +406,7 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 	//printf("%f,%f\n", xpos, ypos);
 	
 	
-	if (button == GLUT_MIDDLE_BUTTON && action == GLUT_DOWN) {
+	if ((button == GLUT_MIDDLE_BUTTON && action == GLUT_DOWN)) {
 		
 		if (rpg7) {
 			
@@ -434,9 +446,12 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 
 void init(GLFWwindow* window)
 {
-	glfwSetMouseButtonCallback(window, mouse_button_callback); 
-	glfwSetInputMode(window, GLFW_STICKY_MOUSE_BUTTONS, GLFW_TRUE);
-	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	
+	if (!Menu::gamepad) {
+		glfwSetMouseButtonCallback(window, mouse_button_callback);
+		glfwSetInputMode(window, GLFW_STICKY_MOUSE_BUTTONS, GLFW_TRUE);
+		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	}
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
 	glEnable(GL_DEPTH_TEST);
@@ -492,32 +507,120 @@ void movement_animation() {
 //obsluga wejscia
 void processInput(GLFWwindow* window)
 {
-	
 	glm::vec3 cameraSide = glm::normalize(glm::cross(cameraDir, glm::vec3(0.f, 1.f, 0.f)));
 	bool moveXYZ = false;
 	float angleSpeed = 0.0025f;
 	float moveSpeed = 0.0025f;
-	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+
+	
+	int axesCount;
+	const float* axes = glfwGetJoystickAxes(GLFW_JOYSTICK_1, &axesCount);
+	int buttonCount;
+	const unsigned char* buttons = glfwGetJoystickButtons(GLFW_JOYSTICK_1, &buttonCount);
+
+	if (Menu::gamepad) {
+		Exit = GLFW_PRESS == buttons[GLFW_GAMEPAD_BUTTON_DPAD_DOWN];
+		Forward = axes[1] != 0 || axes[0] != 0;
+		Jump = GLFW_PRESS == buttons[GLFW_GAMEPAD_BUTTON_A];
+		Flash = GLFW_PRESS == buttons[GLFW_GAMEPAD_BUTTON_Y];
+		Rpg = GLFW_PRESS == buttons[GLFW_GAMEPAD_BUTTON_X];
+		AIM = GLFW_PRESS == buttons[GLFW_GAMEPAD_BUTTON_LEFT_BUMPER];
+		Action = GLFW_PRESS == buttons[GLFW_GAMEPAD_BUTTON_RIGHT_BUMPER];
+		
+		if (AIM) {
+			if (rpg7) {
+
+				if (!reload && !rpg7_takeOut) {
+					if (aiming) {
+						returnToHold = true;
+					}
+					else {
+						if (animationAming == false) {
+							hold = !hold;
+						}
+					}
+				}
+			}
+			
+		}
+
+		if (Action) {
+
+			if (rpg7) {
+
+				if (hold) {
+					if (!reloading && !rpg7_takeOut) {
+						reload = !reload;
+					}
+				}
+
+			}
+
+		}
+
+
+
+		if (Forward) {
+			moveXYZ = true;
+		}
+
+		cameraPos += -(cameraDir * moveSpeed * axes[1]);
+		cameraPos += glm::normalize(glm::cross(cameraDir, cameraUp)) * moveSpeed * axes[0];
+		if ((glm::abs(axes[2]) > 0.2 || glm::abs(axes[3]) > 0.2)) {
+
+			float xpos = static_cast<float>(axes[2]);
+			float ypos = static_cast<float>(axes[3]);
+
+
+			glm::vec3 front;
+			front.x = cos(xpos) * cos(-ypos);
+			front.y = sin(-ypos);
+			front.z = sin(xpos) * cos(-ypos);
+			cameraDir = glm::normalize(front);
+		}
+
+	}
+	else {
+		Exit = glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS;
+		Forward = glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS;
+		Backward = glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS;
+		Left = glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS;
+		Right = glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS;
+		Jump = glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS;
+		Flash = glfwGetKey(window, GLFW_KEY_F) == GLFW_PRESS;
+		Rpg = glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS;
+		if (!Menu::gamepad) {
+			if (Forward) {
+				cameraPos += cameraDir * moveSpeed;
+				moveXYZ = true;
+			}
+			if (Backward)
+			{
+				cameraPos -= cameraDir * moveSpeed;
+				moveXYZ = true;
+			}
+			if (Left) {
+				cameraPos -= glm::normalize(glm::cross(cameraDir, cameraUp)) * moveSpeed;
+				moveXYZ = true;
+			}
+			if (Right) {
+				cameraPos += glm::normalize(glm::cross(cameraDir, cameraUp)) * moveSpeed;
+				moveXYZ = true;
+			}
+		}
+	}
+
+
+	
+	
+
+	if (Exit) {
 		glfwSetWindowShouldClose(window, true);
 	}
-	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
-		cameraPos += cameraDir * moveSpeed;
-		moveXYZ = true;
+	if (Jump) {
+		std::cout << "SPACJA!";
 	}
-	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-	{
-		cameraPos -= cameraDir * moveSpeed;
-		moveXYZ= true;
-	}
-	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
-		cameraPos -= glm::normalize(glm::cross(cameraDir, cameraUp)) * moveSpeed;
-		moveXYZ = true;
-	}
-	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
-		cameraPos += glm::normalize(glm::cross(cameraDir, cameraUp)) * moveSpeed;
-		moveXYZ = true;
-	}
-	if ((glfwGetKey(window, GLFW_KEY_F) == GLFW_PRESS) || RPG7_to_flashlight) {
+	if (Flash || RPG7_to_flashlight) {
 		if (!rpg7) {
 			if (!flashlight && !flashlight_hiding && !flashlight_takeOut) {
 				flashlight = true;
@@ -535,7 +638,7 @@ void processInput(GLFWwindow* window)
 			RPG7_to_flashlight = true;
 		}
 	}
-	if ((glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS) || flashlight_to_RPG7) {
+	if (Rpg || flashlight_to_RPG7) {
 		if (!flashlight) {
 			if (rpg7 && !rpg7_takeOut && !aiming && !reloading && !animationAming && !rpg7_hiding ) {
 				rpg7_hide = !rpg7_hide;
@@ -605,7 +708,9 @@ void mouse_callback(GLFWwindow* window, double xposIn, double yposIn)
 void renderLoop(GLFWwindow* window) {
 	while (!glfwWindowShouldClose(window))
 	{
-		glfwSetCursorPosCallback(window, mouse_callback);
+		if (!Menu::gamepad) {
+			glfwSetCursorPosCallback(window, mouse_callback);
+		}
 		
 		processInput(window);
 		

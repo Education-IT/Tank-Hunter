@@ -3,7 +3,7 @@
 #include <GLFW/glfw3.h>
 #include "glm.hpp"
 #include "ext.hpp"
-#include <iostream>
+//#include <iostream>
 #include <cmath>
 #include "MainMenu.h"
 #include "ex_7_1.hpp"
@@ -13,7 +13,7 @@
 int main(int argc, char** argv)
 {
 	
-	//Menu::start_menu();
+	Menu::start_menu();
 	// inicjalizacja glfw
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
