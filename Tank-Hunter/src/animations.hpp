@@ -1,12 +1,13 @@
-#include "ext.hpp"
 
-//Animations
+// Walking animation
 float movementX = 0;
 float movementY = 0;
 float movementZ = 0;
-bool MINUS = true;
-bool PLUS = false;
+bool subtraction = true;
+bool addition = false;
 
+
+// Equipment animation
 bool returnToHold = false;
 bool reload = false;
 bool reloading = false;
@@ -19,9 +20,10 @@ float returnStartTime = 0;
 float deltaTime2 = 0.f;
 
 
-//Zmiany w ekwipunku
-bool rpg7 = false;
+// Inventory change logic
 bool flashlight = true;
+
+bool rpg7 = false;
 bool flashlight_hide = false;
 bool flashlight_takeOut = false;
 bool flashlight_takingOut = false;
@@ -32,7 +34,7 @@ bool rpg7_hiding = false;
 bool flashlight_to_RPG7 = false;
 bool RPG7_to_flashlight = false;
 
-
+// Get the current start time of the animation
 void getAnimationTime(float& StartTime, float delta2) {
 	if (StartTime <= 0) {
 		StartTime = glfwGetTime();
@@ -84,7 +86,6 @@ void RPG_aim_animation(float currentTime) {
 				aiming = false;
 				returnToHold = false;
 				animationAming = false;
-
 			}
 		}
 	}
@@ -92,7 +93,6 @@ void RPG_aim_animation(float currentTime) {
 		if (deltaTime >= 0.9) {
 			aiming = true;
 		}
-
 	}
 }
 
@@ -108,7 +108,6 @@ void RPG_takeOut_animation(float currentTime) {
 		rpg7_hide = false;
 		rpg7_takeOut = false;
 		rpg7 = false;
-
 	}
 }
 
@@ -124,7 +123,6 @@ void RPG_hide_animation(float currentTime) {
 		rpg7_takeOut = false;
 		rpg7_takeOut = false;
 		rpg7_hiding = false;
-
 	}
 }
 
@@ -140,8 +138,6 @@ void Flashlight_takeOut_animation(float currentTime) {
 		animStartTime = 0;
 		flashlight_takeOut = false;
 		flashlight_takingOut = false;
-
-
 	}
 }
 
@@ -157,7 +153,6 @@ void Flashlight_hide_animation(float currentTime) {
 		flashlight_hiding = false;
 		flashlight = false;
 		flashlight_hide = false;
-
 	}
 }
 
@@ -165,32 +160,30 @@ void Flashlight_hide_animation(float currentTime) {
 void movement_animation() {
 
 	if (hold) {
-		if (movementX >= -0.005 && !PLUS && MINUS) {
+		if (movementX >= -0.005 && !addition && subtraction) {
 			movementX = movementX - 0.000025;
 			movementY = movementY - 0.000005;
 			movementZ = movementZ - 0.0000125;
 		}
 		if (movementX <= -0.005) {
-			PLUS = true;
-			MINUS = false;
+			addition = true;
+			subtraction = false;
 		}
 
-		if (PLUS && movementX <= 0.005) {
+		if (addition && movementX <= 0.005) {
 			movementX = movementX + 0.000025;
 			movementY = movementY + 0.000005;
 			movementZ = movementZ + 0.0000125;
 		}
 		if (movementX >= 0.005) {
-			MINUS = true;
-			PLUS = false;
+			subtraction = true;
+			addition = false;
 		}
 
-		if (movementX >= 0.005 && PLUS && !MINUS) {
+		if (movementX >= 0.005 && addition && !subtraction) {
 			movementX = movementX + 0.000025;
 			movementY = movementY + 0.000005;
 			movementZ = movementZ + 0.0000125;
 		}
-
 	}
-
 }

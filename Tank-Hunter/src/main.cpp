@@ -1,19 +1,13 @@
-//#include "ext.hpp"
-//#include <GLFW/glfw3.h>
-//#include "glm.hpp"
-//#include <iostream>
-//#include <cmath>
-#include "glew.h"
+#include "glew.h" //penGL Extenson Wrangler - ³adowanie OpenGl - wybranie wersji.
 #include "MainMenu.hpp"
 #include "Tank-Hunter.hpp"
 
-
 int main(int argc, char** argv)
 {	
-	// uruchomienie Menu-G³ównego (konsolowego)
+	// Launching the console Main-Menu
 	start_menu();
 
-	//inicjalizacja glfw -> biblioteki od okien.
+	// glfw initialization (Window library).
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -23,7 +17,7 @@ int main(int argc, char** argv)
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
 
-	// tworzenie okna za pomoca glfw
+	// Creating a window with glfw
 	GLFWwindow* window = glfwCreateWindow(800, 800, " Tank-Hunter ", NULL, NULL);
 	if (window == NULL)
 	{
@@ -33,15 +27,15 @@ int main(int argc, char** argv)
 	}
 	glfwMakeContextCurrent(window);
 
-	//ladowanie OpenGL za pomoca glew
-	//przekazujemy OpenGl'owi ja jakim rozmiarze okna bêdziemy pracowali
+	// Loading OpenGL with glew
+	// We tell OpenGl what window size we will be working with
 	glewInit();
 	glViewport(0, 0, 800, 800); 
 
 
-	/* Unikniêcie b³êdu gry i nieoczekiwanego zamkniêcia aplkiacji.
-	Je¿eli u¿ytkownik wybra³ grê za pomoc¹ GamePada - zachodzi sprawdzenie czy takowy jest pod³¹czony. 
-	Jeœli nie jest on widoczny - gra przechodzi na sterowanie za pomoc¹ myszki i klawiatury.*/
+	/* Avoid game error and application closing unexpectedly.
+	If the user selected the game using a GamePad - there is a check whether it is connected.
+	If it is not visible - the game switches to mouse and keyboard control.*/
 	if (gamepad) {
 		int present = glfwJoystickPresent(GLFW_JOYSTICK_1);
 		if (0 == present) {
@@ -49,10 +43,12 @@ int main(int argc, char** argv)
 		}
 	}
 
+	
 	init(window);
 
-	// uruchomienie glownej petli programu gry
+	// Game - Main loop 
 	renderLoop(window);
+
 	shutdown(window);
 	glfwTerminate();
 	return 0;
