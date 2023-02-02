@@ -4,8 +4,9 @@
 #include <stdlib.h>
 #include <conio.h>
 #include <MMsystem.h>
+#include "ext.hpp"
 #include <GLFW/glfw3.h>
-namespace Menu {
+
     // Colors:
     const int green = 10;
     const int yellow = 14;
@@ -13,7 +14,6 @@ namespace Menu {
     const int blue = 9;
     const int grey = 8;
     int Set[] = { blue, white, white, white };
-
 
     // Main menu variables:
     int counter = 1;
@@ -33,10 +33,8 @@ namespace Menu {
 
     // Change console's color
     void color(int color) {
-
         SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
     }
-
 
     void printTank_Ascii_Art() {
         color(white);
@@ -77,7 +75,7 @@ namespace Menu {
         SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), c);
     }
 
-    // if setting -> return: string on/off
+    // if bool setting -> return: string on/off
     std::string f_on_off(bool on_off) {
         if (on_off == true) {
             return "ON";
@@ -212,8 +210,6 @@ namespace Menu {
                 }
             }
 
-
-
             // Option No. 2 in each view =====================================================================================
             if (counter == 2 && startPressed == true) {
 
@@ -230,8 +226,6 @@ namespace Menu {
                 fog = !fog;
 
             }
-
-
 
             // Option No. 3 in each view =====================================================================================
             if (counter == 3) {
@@ -265,32 +259,20 @@ namespace Menu {
             }
         }
 
-
-
         // Change color to white
         Set[0] = white;
         Set[1] = white;
         Set[2] = white;
         Set[3] = white;
 
-
         // Changing colour to blue - where you are currently in the MENU.
-        if (counter == 1)
-        {
-            Set[0] = blue;
-        }
-        if (counter == 2)
-        {
-            Set[1] = blue;
-        }
-        if (counter == 3)
-        {
-            Set[2] = blue;
-        }
-        if (counter == 4)
-        {
-            Set[3] = blue;
-        }
+        if (counter == 1) Set[0] = blue;
+
+        if (counter == 2) Set[1] = blue;
+
+        if (counter == 3) Set[2] = blue;
+
+        if (counter == 4) Set[3] = blue;
 
     }
 
@@ -318,9 +300,7 @@ namespace Menu {
         printTank_Ascii_Art();
         Sleep(2500);   system("cls"); Sleep(800);
 
-
         gotoxy(36, 10);
-
         color(green);
 
         for (int txt = 0; txt < 4; txt++) {
@@ -354,6 +334,7 @@ namespace Menu {
 
             }
         }
+
         PlaySound(NULL, 0, 0);
         Sleep(100);
         if (sound) {
@@ -521,15 +502,13 @@ namespace Menu {
             GetWindowRect(console, &ConsoleRect);
             MoveWindow(console, ConsoleRect.left, ConsoleRect.top, 1085, 600, TRUE);
 
-
-
             while (on_of) {
 
                 printMainMenu();
                 MainMenuLogic();
             }
             
-            //gameInfo();
+            //gameInfo(); // <- ODKOMENTUJ PRZED ODDANIEM PROJEKTU!
             //Sleep(4000);
             // TODO!!! --> DODAJ LOGIKĘ WYGRYWANIA!
             //gameWin();
@@ -540,5 +519,3 @@ namespace Menu {
         }
 
 
-    
-}

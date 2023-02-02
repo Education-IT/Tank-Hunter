@@ -11,9 +11,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Box.cpp" />
-    <ClCompile Include="src\Camera.cpp" />
-    <ClCompile Include="src\MainMenu.h" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Render_Utils.cpp" />
     <ClCompile Include="src\Shader_Loader.cpp" />
@@ -24,8 +21,10 @@
     <ClCompile Include="src\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Camera.h" />
-    <ClInclude Include="src\ex_7_1.hpp" />
+    <ClInclude Include="src\Tank-Hunter.hpp" />
+    <ClInclude Include="src\animations.hpp" />
+    <ClInclude Include="src\gameInput.hpp" />
+    <ClInclude Include="src\MainMenu.hpp" />
     <ClInclude Include="src\objload.h" />
     <ClInclude Include="src\Render_Utils.h" />
     <ClInclude Include="src\Shader_Loader.h" />
@@ -96,7 +95,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>opengl32.lib;freeglut.lib;glew32.lib;$(SolutionDir)\dependencies\glfw-3.3.8.bin.WIN32\lib-vc2019\glfw3.lib;$(SolutionDir)\dependencies\glfw-3.3.8.bin.WIN32\lib-vc2019\glfw3dll.lib;zlibd.lib;assimp-vc141-mtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)dependencies\glfw-3.3.8.bin.WIN32\lib-vc2019;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <ForceFileOutput>Enabled</ForceFileOutput>
+      <ForceFileOutput>
+      </ForceFileOutput>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
