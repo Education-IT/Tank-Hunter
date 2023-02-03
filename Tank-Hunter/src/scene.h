@@ -2,7 +2,9 @@ Core::RenderContext sphereContext;
 Core::RenderContext shipContext;
 Core::RenderContext RPG7_Context;
 Core::RenderContext FlashlightContext;
-
+Core::RenderContext T72;
+Core::RenderContext T34;
+Core::RenderContext Attack_helicopter;
 
 // GLuint = opengl UnsignedINT!!!
 GLuint program; // Shader ID
@@ -15,6 +17,8 @@ namespace texture {
 	GLuint FLASHLIGHT;
 	GLuint RUST;
 	GLuint SCRATCHES;
+	GLuint TANK;
+	GLuint HELICOPTER;
 }
 
 

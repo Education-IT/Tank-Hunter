@@ -126,7 +126,7 @@ void drawObjectTexture(GLuint ShaderID , Core::RenderContext& context, glm::mat4
 			Core::SetActiveTexture(texture::SCRATCHES, "scratches", ShaderID, 2);
 			
 		}*/
-
+		glUniform3f(glGetUniformLocation(ShaderID, "cameraDir"), cameraPos.x, cameraPos.y, cameraPos.z);
 		Core::SetActiveTexture(textureID, "colorTexture", ShaderID, 0);
 		drawObjectColor(ShaderID, context, modelMatrix, glm::vec3(0, 0, 0));
 
@@ -192,19 +192,21 @@ void drawEquipment() {
 }
 
 void drawScene(){
+	
+	drawObjectTexture(programTex, Attack_helicopter, glm::scale(glm::vec3(0.06f)), texture::FLASHLIGHT);
 
-	drawObjectColor(program, sphereContext, glm::scale(glm::vec3(1.6f)), glm::vec3(1.f, 1.f, 1.f));
+	drawObjectTexture(programTex, T34, glm::eulerAngleY(currentTime / 3) * glm::translate(glm::vec3(4.f, 0, 0)) * glm::scale(glm::vec3(0.03f)) * glm::eulerAngleY(currentTime * 2), texture::TANK);
 
-	drawObjectColor(program, sphereContext, glm::eulerAngleY(currentTime / 3) * glm::translate(glm::vec3(4.f, 0, 0)) * glm::scale(glm::vec3(0.3f)) * glm::eulerAngleY(currentTime * 2), glm::vec3(1.f, 0, 0));
-
-	drawObjectColor(program, sphereContext,
-		glm::eulerAngleY(currentTime / 3) * glm::translate(glm::vec3(4.f, 0, 0)) * glm::eulerAngleY(currentTime) * glm::translate(glm::vec3(1.f, 0, 0)) * glm::scale(glm::vec3(0.1f)), glm::vec3(0, 0, 1.f));
+	drawObjectTexture(programTex, T72,
+		glm::eulerAngleY(currentTime / 3) * glm::translate(glm::vec3(4.f, 0, 0)) * glm::eulerAngleY(currentTime) * glm::translate(glm::vec3(1.f, 0, 0)) * glm::scale(glm::vec3(0.005f)), texture::TANK);
 
 }
 
 
 void renderScene(GLFWwindow* window)
-{	
+{
+
+	
 	glClearColor(0.0f, 0.3f, 0.3f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  // Clearing the color and z-depth buffers
 	
@@ -243,7 +245,6 @@ void loadModelToContext(std::string path, Core::RenderContext& context)
 
 void init(GLFWwindow* window)
 {
-	
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 	glEnable(GL_DEPTH_TEST); // z-buffor test ON
 
@@ -259,15 +260,22 @@ void init(GLFWwindow* window)
 	programTex = shaderLoader.CreateProgram("shaders/OBJ_texture_shader.vert", "shaders/OBJ_texture_shader.frag");
 	skybox = shaderLoader.CreateProgram("shaders/Skybox_shader.vert", "shaders/Skybox_shader.frag");
 
-	loadModelToContext("./models/sphere.obj", sphereContext);
-	loadModelToContext("./models/spaceship.obj", shipContext);
+
+	
 	loadModelToContext("./models/Equipment/Rpg7.obj", RPG7_Context);
 	loadModelToContext("./models/Equipment/Flashlight.obj", FlashlightContext);
 	loadModelToContext("./models/cube.obj", cube);
+	loadModelToContext("./models/Vehicles/T72.obj", T72);
+	loadModelToContext("./models/Vehicles/Jet.obj", T34);
+	loadModelToContext("./models/Vehicles/Helicopter.obj", Attack_helicopter);
+
 	texture::RPG7 = Core::LoadTexture("./textures/forest_camuflage.png");
 	texture::FLASHLIGHT = Core::LoadTexture("./textures/metal.jpg");
+	texture::TANK = Core::LoadTexture("./textures/tank.jpg");
+	texture::HELICOPTER = Core::LoadTexture("./textures/helicopter.jpg");
+	texture::RUST = Core::LoadTexture("./textures/rust.jpg");
 	//texture::SCRATCHES = Core::LoadTexture("./textures/sratches.jpg");
-	//texture::RUST = Core::LoadTexture("./textures/rust.jpg");
+	
 
 	InitSkybox();
 }
