@@ -21,6 +21,8 @@
     <ClCompile Include="src\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\scene.h" />
+    <ClInclude Include="src\skybox.h" />
     <ClInclude Include="src\Tank-Hunter.hpp" />
     <ClInclude Include="src\animations.hpp" />
     <ClInclude Include="src\gameInput.hpp" />
@@ -37,8 +39,12 @@
     <ClInclude Include="src\Texture.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="shaders\shader_5_1.frag" />
-    <None Include="shaders\shader_5_1.vert" />
+    <None Include="shaders\OBJ_color_shader.frag" />
+    <None Include="shaders\OBJ_color_shader.vert" />
+    <None Include="shaders\OBJ_texture_shader.frag" />
+    <None Include="shaders\OBJ_texture_shader.vert" />
+    <None Include="shaders\Skybox_shader.frag" />
+    <None Include="shaders\Skybox_shader.vert" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{F2FC2E8F-CBA6-49D7-8B73-4BFBCB64D310}</ProjectGuid>

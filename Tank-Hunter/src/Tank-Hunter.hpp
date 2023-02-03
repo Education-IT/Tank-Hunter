@@ -1,4 +1,4 @@
-//#include "glew.h"
+
 #include <GLFW/glfw3.h> // Graphics Library Framework Wrangler/window - Umozliwia Tworzenie okien i obs³ugê wejœcia
 #include "glm.hpp" //openGl Mathematics - biblioteka matemtyczna - macierze/wektory
 #include "ext.hpp"
@@ -16,17 +16,17 @@
 #include "SOIL/SOIL.h"
 
 #include "gameInput.hpp"
+#include "skybox.h"
+#include "scene.h"
 
-Core::RenderContext sphereContext;
-Core::RenderContext shipContext;
-Core::RenderContext RPG7_Context;
-Core::RenderContext FlashlightContext;
 
-// GLuint = opengl UnsignedINT!!!
-GLuint program; // Shader ID
-Core::Shader_Loader shaderLoader; 
 
+
+float currentTime;
 float aspectRatio = 1.f; 
+
+
+
 
 //macierz wodoku/kamery przeksztalca wszytskie wspolrzedne swiata we wspolrzedne widoku, ktore sa umieszczone wzgledem pozycji i kierunku kamery
 /*
@@ -90,84 +90,86 @@ glm::mat4 createEquipmentMatrix()
 	return Equipment_Rotation_Matrix;
 }
 
+void drawSKYBOX() {
+	glUseProgram(skybox);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, skybox_context);
 
-void drawObjectColor(Core::RenderContext& context, glm::mat4 modelMatrix, glm::vec3 color) {
+	glm::mat4 transformation = createPerspectiveMatrix() * createCameraMatrix();
+	glm::mat4 VIEW = glm::translate(cameraPos);
+	glUniformMatrix4fv(glGetUniformLocation(skybox, "transformation"), 1, GL_FALSE, (float*)&transformation);
+	glUniformMatrix4fv(glGetUniformLocation(skybox, "VIEW"), 1, GL_FALSE, (float*)&VIEW);
+	Core::DrawContext(cube);
+	glUseProgram(0);
+}
 
-	glUseProgram(program); // Activating a specific shader
+void drawObjectColor(GLuint ShaderID ,Core::RenderContext& context, glm::mat4 modelMatrix, glm::vec3 color) {
+
+	glUseProgram(ShaderID); // Activating a specific shader
 	glm::mat4 viewProjectionMatrix = createPerspectiveMatrix() * createCameraMatrix();
 	glm::mat4 transformation = viewProjectionMatrix * modelMatrix;
-	glUniformMatrix4fv(glGetUniformLocation(program, "transformation"), 1, GL_FALSE, (float*)&transformation);
-	glUniformMatrix4fv(glGetUniformLocation(program, "modelMatrix"), 1, GL_FALSE, (float*)&modelMatrix);
-	glUniform3f(glGetUniformLocation(program, "color"), color.x, color.y, color.z);
-	glUniform3f(glGetUniformLocation(program, "lightPos"), 0, 0, 0);
+	glUniformMatrix4fv(glGetUniformLocation(ShaderID, "transformation"), 1, GL_FALSE, (float*)&transformation);
+	glUniformMatrix4fv(glGetUniformLocation(ShaderID, "modelMatrix"), 1, GL_FALSE, (float*)&modelMatrix);
+	glUniform3f(glGetUniformLocation(ShaderID, "color"), color.x, color.y, color.z);
+	glUniform3f(glGetUniformLocation(ShaderID, "lightPos"), 0, 0, 0);
 	Core::DrawContext(context);
+
+	// Disabling a given shader (if zero - then disabling the currently used one)
+	glUseProgram(0);
+}
+
+void drawObjectTexture(GLuint ShaderID , Core::RenderContext& context, glm::mat4 modelMatrix, GLuint textureID) {
+	
+		//Przyk³ad dla wys³ania wiêkszej iloœci tekstur do jednego obiektu
+		/*if (textureID == texture::RPG7){
+			ShaderID = programRPG;
+			Core::SetActiveTexture(texture::RUST, "rust", ShaderID, 1);
+			Core::SetActiveTexture(texture::SCRATCHES, "scratches", ShaderID, 2);
+			
+		}*/
+
+		Core::SetActiveTexture(textureID, "colorTexture", ShaderID, 0);
+		drawObjectColor(ShaderID, context, modelMatrix, glm::vec3(0, 0, 0));
 
 }
 
-
-void renderScene(GLFWwindow* window)
-{
-	// Clearing the color and z-depth buffers
-	glClearColor(0.0f, 0.3f, 0.3f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
-	
-
+void drawEquipment() {
 	glm::mat4 Equipment_Matrix = createEquipmentMatrix();
-
-	// Stores the elapsed time since the window was started
-	float currentTime = glfwGetTime();
-	
-	glDepthMask(GL_FALSE);
-	
-	glDepthMask(GL_TRUE);
-
-
-	drawObjectColor(sphereContext, glm::scale(glm::vec3(1.6f)), glm::vec3(1.f, 1.f, 1.f));
-	 
-	drawObjectColor(sphereContext, glm::eulerAngleY(currentTime / 3) * glm::translate(glm::vec3(4.f, 0, 0)) * glm::scale(glm::vec3(0.3f)) * glm::eulerAngleY(currentTime * 2), glm::vec3(1.f, 0, 0)); 
-
-	drawObjectColor(sphereContext,
-		glm::eulerAngleY(currentTime / 3) * glm::translate(glm::vec3(4.f, 0, 0)) * glm::eulerAngleY(currentTime) * glm::translate(glm::vec3(1.f, 0, 0)) * glm::scale(glm::vec3(0.1f)), glm::vec3(0, 0, 1.f));
-
-	
 	if (rpg7) {
 
 		if (hold) {
 			if (reload) {
-				//ANIMACJA PRZE£ADOWANIA RPG7_Context
-				drawObjectColor(RPG7_Context,
+				drawObjectTexture(programTex, RPG7_Context,
 					glm::translate(Equipment_POS) * (Equipment_Matrix * glm::translate(glm::vec3(movementX, -0.07f + movementY, 0.05f + movementZ))) * glm::eulerAngleXY(deltaTime / 1.2f, 1.44f) * glm::scale(glm::vec3(.0005f)),
-					glm::vec3(0.6f, 0.3f, 1.0f)
+					texture::RPG7
 				);
 				RPG_reload_animation(currentTime);
-
 			}
 			else {
 				//ANIMACJA STANDAROWEGO PORUSZANIA SIÊ Z RPG7_Context
 				if (rpg7_hide || rpg7_takeOut) {
-					drawObjectColor(RPG7_Context,
-						glm::translate(Equipment_POS) * (Equipment_Matrix * glm::translate(glm::vec3(movementX, -0.07f + movementY, 0.05f + movementZ))) * glm::eulerAngleXY(deltaTime*3/4, 1.44f - deltaTime/2) * glm::scale(glm::vec3(.0005f)),
-						glm::vec3(0.6f, 0.3f, 1.0f)
+					drawObjectTexture(programTex, RPG7_Context,
+						glm::translate(Equipment_POS) * (Equipment_Matrix * glm::translate(glm::vec3(movementX, -0.07f + movementY, 0.05f + movementZ))) * glm::eulerAngleXY(deltaTime * 3 / 4, 1.44f - deltaTime / 2) * glm::scale(glm::vec3(.0005f)),
+						texture::RPG7
 					);
 					if (rpg7_hide) {
 						RPG_takeOut_animation(currentTime);
 					}
-					else if (rpg7_takeOut){
+					else if (rpg7_takeOut) {
 						RPG_hide_animation(currentTime);
 					}
 				}
 				else {
-					drawObjectColor(RPG7_Context,
-						glm::translate(Equipment_POS) * (Equipment_Matrix * glm::translate(glm::vec3(movementX, -0.07f + movementY, 0.05f + movementZ))) * glm::eulerAngleY(1.44f) * glm::scale(glm::vec3(.0005f)),glm::vec3(0.6f, 0.3f, 1.0f)
+					drawObjectTexture(programTex, RPG7_Context,
+						glm::translate(Equipment_POS) * (Equipment_Matrix * glm::translate(glm::vec3(movementX, -0.07f + movementY, 0.05f + movementZ))) * glm::eulerAngleY(1.44f) * glm::scale(glm::vec3(.0005f)), texture::RPG7
 					);
-				}	
+				}
 			}
 		}
 		else {
 			//ANIMACJA CELOWANIA Z RPG7_Context
-			drawObjectColor(RPG7_Context,
+			drawObjectTexture(programTex, RPG7_Context,
 				glm::translate(Equipment_POS) * (Equipment_Matrix * glm::translate(glm::vec3(0.0f - deltaTime / 9, -0.07f - deltaTime / 600, 0.05f - deltaTime / 45))) * glm::eulerAngleY(1.44f) * glm::scale(glm::vec3(.0005f)), //glm::pi<float>()   /**glm::translate(glm::vec3(-0.10f,-0.0715f,0.03f))*/
-				glm::vec3(0.6f, 0.3f, 1.0f)
+				texture::RPG7
 			);
 
 			if (!aiming || returnToHold) {
@@ -176,24 +178,49 @@ void renderScene(GLFWwindow* window)
 		}
 	}
 	else if (flashlight) {
-		drawObjectColor(FlashlightContext,
-			glm::translate(Equipment_POS) * (Equipment_Matrix * glm::translate(glm::vec3(movementX + 0.12f - deltaTime/17.143, -0.135f + movementY - deltaTime/14.1776, 0.05f + movementZ + 0.12f))) * glm::eulerAngleY(1.44f - deltaTime*144/120) * glm::scale(glm::vec3(.08f)),
-			glm::vec3(0.2f, 0.1f, 1.0f)
+		drawObjectTexture(programTex, FlashlightContext,
+			glm::translate(Equipment_POS) * (Equipment_Matrix * glm::translate(glm::vec3(movementX + 0.12f - deltaTime / 17.143, -0.135f + movementY - deltaTime / 14.1776, 0.05f + movementZ + 0.12f))) * glm::eulerAngleY(1.44f - deltaTime * 144 / 120) * glm::scale(glm::vec3(.08f)),
+			texture::FLASHLIGHT
 		);
 		if (flashlight_hide) {
 			Flashlight_hide_animation(currentTime);
 		}
-		else if(flashlight_takeOut) {
+		else if (flashlight_takeOut) {
 			Flashlight_takeOut_animation(currentTime);
 		}
 	}
-
-	// Disabling a given shader (if zero - then disabling the currently used one)
-	glUseProgram(0);
-
-	// Changes the color buffer (double buffering)
-	glfwSwapBuffers(window);  
 }
+
+void drawScene(){
+
+	drawObjectColor(program, sphereContext, glm::scale(glm::vec3(1.6f)), glm::vec3(1.f, 1.f, 1.f));
+
+	drawObjectColor(program, sphereContext, glm::eulerAngleY(currentTime / 3) * glm::translate(glm::vec3(4.f, 0, 0)) * glm::scale(glm::vec3(0.3f)) * glm::eulerAngleY(currentTime * 2), glm::vec3(1.f, 0, 0));
+
+	drawObjectColor(program, sphereContext,
+		glm::eulerAngleY(currentTime / 3) * glm::translate(glm::vec3(4.f, 0, 0)) * glm::eulerAngleY(currentTime) * glm::translate(glm::vec3(1.f, 0, 0)) * glm::scale(glm::vec3(0.1f)), glm::vec3(0, 0, 1.f));
+
+}
+
+
+void renderScene(GLFWwindow* window)
+{	
+	glClearColor(0.0f, 0.3f, 0.3f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  // Clearing the color and z-depth buffers
+	
+	currentTime = glfwGetTime(); // Stores the elapsed time since the window was started
+	
+	glDepthMask(GL_FALSE);
+	drawSKYBOX();
+	glDepthMask(GL_TRUE);
+
+	drawEquipment();
+	drawScene();
+
+	glfwSwapBuffers(window);  	// Changes the color buffer (double buffering)
+}
+
+
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
 	aspectRatio = width / float(height);
@@ -216,6 +243,7 @@ void loadModelToContext(std::string path, Core::RenderContext& context)
 
 void init(GLFWwindow* window)
 {
+	
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 	glEnable(GL_DEPTH_TEST); // z-buffor test ON
 
@@ -227,12 +255,21 @@ void init(GLFWwindow* window)
 		glfwSetCursorPosCallback(window, mouse_callback); // detects cursor position change
 	}
 	
-	program = shaderLoader.CreateProgram("shaders/shader_5_1.vert", "shaders/shader_5_1.frag");
-	
+	program = shaderLoader.CreateProgram("shaders/OBJ_color_shader.vert", "shaders/OBJ_color_shader.frag");
+	programTex = shaderLoader.CreateProgram("shaders/OBJ_texture_shader.vert", "shaders/OBJ_texture_shader.frag");
+	skybox = shaderLoader.CreateProgram("shaders/Skybox_shader.vert", "shaders/Skybox_shader.frag");
+
 	loadModelToContext("./models/sphere.obj", sphereContext);
 	loadModelToContext("./models/spaceship.obj", shipContext);
 	loadModelToContext("./models/Equipment/Rpg7.obj", RPG7_Context);
 	loadModelToContext("./models/Equipment/Flashlight.obj", FlashlightContext);
+	loadModelToContext("./models/cube.obj", cube);
+	texture::RPG7 = Core::LoadTexture("./textures/forest_camuflage.png");
+	texture::FLASHLIGHT = Core::LoadTexture("./textures/metal.jpg");
+	//texture::SCRATCHES = Core::LoadTexture("./textures/sratches.jpg");
+	//texture::RUST = Core::LoadTexture("./textures/rust.jpg");
+
+	InitSkybox();
 }
 
 void shutdown(GLFWwindow* window)

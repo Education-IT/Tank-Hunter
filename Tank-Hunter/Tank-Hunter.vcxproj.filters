@@ -89,12 +89,30 @@
     <ClInclude Include="src\objload.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\skybox.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\scene.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="shaders\shader_5_1.frag">
+    <None Include="shaders\OBJ_color_shader.frag">
       <Filter>Shader Files</Filter>
     </None>
-    <None Include="shaders\shader_5_1.vert">
+    <None Include="shaders\OBJ_color_shader.vert">
+      <Filter>Shader Files</Filter>
+    </None>
+    <None Include="shaders\OBJ_texture_shader.frag">
+      <Filter>Shader Files</Filter>
+    </None>
+    <None Include="shaders\OBJ_texture_shader.vert">
+      <Filter>Shader Files</Filter>
+    </None>
+    <None Include="shaders\Skybox_shader.frag">
+      <Filter>Shader Files</Filter>
+    </None>
+    <None Include="shaders\Skybox_shader.vert">
       <Filter>Shader Files</Filter>
     </None>
   </ItemGroup>
