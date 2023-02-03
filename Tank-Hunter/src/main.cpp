@@ -1,13 +1,13 @@
-#include "glew.h" //penGL Extenson Wrangler - ³adowanie OpenGl - wybranie wersji.
+#include "glew.h" // OpenGL Extenson Wrangler - load OpenGL - choose version.
 #include "MainMenu.hpp"
 #include "Tank-Hunter.hpp"
 
 int main(int argc, char** argv)
 {	
 	// Launching the console Main-Menu
-	start_menu();
+	// start_menu();
 
-	// glfw initialization (Window library).
+	// glfw initialization and configuration - Graphics Library Framework Wrangler
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -50,6 +50,6 @@ int main(int argc, char** argv)
 	renderLoop(window);
 
 	shutdown(window);
-	glfwTerminate();
+	glfwTerminate(); // Correctly closes applications, removes all resources
 	return 0;
 }

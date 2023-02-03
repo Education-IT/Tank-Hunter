@@ -28,45 +28,45 @@ Core::Shader_Loader shaderLoader;
 
 float aspectRatio = 1.f; 
 
+//macierz wodoku/kamery przeksztalca wszytskie wspolrzedne swiata we wspolrzedne widoku, ktore sa umieszczone wzgledem pozycji i kierunku kamery
+/*
+Aby zdefiniowac kamere potrzebujemy jej pozycji w przestrzeni swiata, kierunku w ktorym patrzy, wektora skierowanego w prawo i wektora skierowanego w gore
+POZYZCJA KAMERY -> CameraPos
+KIERUNEK PATZRENIA KAMERY -> CameraDir
+PRAWA OŒ -> cameraRight (wyznacza praw¹ strone - tam gdzie x zaczynaj¹ byæ dodatnie
+GÓRNA OŒ -> CameraUp (wyznacza górê - tam gdzie y zaczynaj¹ byæ dodatnie)
+
+Normalizacja wektora polega na wziêciu wektora o dowolnej d³ugoœci, zachowaæ kierunek w który jest zwrócony i zmieniæ jego d³ugoœæ na 1
+glm::cross jest to iloczyn wektorowy - Jego wynikiem jest wektor prostopadly do obu wektorow
+*/
+
 glm::mat4 createCameraMatrix()
 {
-	glm::vec3 cameraSide = glm::normalize(glm::cross(cameraDir, glm::vec3(0.f, 1.f, 0.f)));
-	glm::vec3 cameraUp = glm::normalize(glm::cross(cameraSide, cameraDir));
+	glm::vec3 cameraRight = glm::normalize(glm::cross(cameraDir, glm::vec3(0.f, 1.f, 0.f)));
+	glm::vec3 cameraUp = glm::normalize(glm::cross(cameraRight, cameraDir));
 	glm::mat4 cameraRotrationMatrix = glm::mat4({
-		cameraSide.x,cameraSide.y,cameraSide.z,0,
+		cameraRight.x,cameraRight.y,cameraRight.z,0,
 		cameraUp.x,cameraUp.y,cameraUp.z ,0,
-		-cameraDir.x,-cameraDir.y,-cameraDir.z,0,
+		-cameraDir.x,-cameraDir.y,-cameraDir.z,0, // wektor cameraDir jest odwrócony - bo chcemy aby œwiat porusza³ siê zawsze w przeciwnym kierunku -> z³udzenie poruszania sie kamery -> tak na prawdê ca³y œwiat siê zmienia pozycje a my stoimi w miejscu!
 		0.,0.,0.,1.,
 		});
 	cameraRotrationMatrix = glm::transpose(cameraRotrationMatrix);
-	glm::mat4 cameraMatrix = cameraRotrationMatrix * glm::translate(-cameraPos);
+	glm::mat4 cameraMatrix = cameraRotrationMatrix * glm::translate(-cameraPos); //matrix lookAt
 
 	return cameraMatrix;
 }
 
 glm::mat4 createPerspectiveMatrix()
 {
-
-	/* 
-	float n = 0.05;
-	float f = 20; 
-	double fov = 100;
-	double s = 1 / tan(fov*0.5 * M_PI/180);
-	// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	// ! Macierz translation jest definiowana wierszowo dla poprawy czytelnosci. OpenGL i GLM domyslnie stosuje macierze kolumnowe, dlatego musimy ja transponowac !
-	// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	glm::mat4 perspectiveMatrix = glm::mat4({
-		aspectRatio2*s,0.,0.,0.,  // zmniejszenie wartoÅ›ci w m11 i m22 wiÄ™kszy kÄ…t widzenia danej osi.-> to te parametry odpowiadajÄ… za Å›ciskanie i rozszerzanie przestrzeni w tych osiach.
-		0.,aspectRatio*s,0.,0.,
-		0.,0.,(n+f)/(n-f),(2*n*f)/(n-f),
-		0.,0.,-1.,0.});
-	*/
-
 	glm::mat4 perspectiveMatrix;
-	float n = 0.01;
-	float f = 20;
+	float n = 0.01f;
+	float f = 100.0f;
 	float formula = 2 * f * n / (n - f);
 	
+	//macierz projekcji/rzutowania /wizjer kamery - bryla widzenia / rzut perspektywiczny
+	//bry³a jest obcieta przez 2 plaszczyzny near and far - powstaje ostroslup sciety -> FRUSTRUM
+	// polo¿enie plaszczyzn obcinania = near i far
+	//aspect ratio - proporcja widoku
 	perspectiveMatrix = glm::mat4({
 		1,0.,0.,0.,
 		0.,aspectRatio,0.,0.,
@@ -79,10 +79,10 @@ glm::mat4 createPerspectiveMatrix()
 
 glm::mat4 createEquipmentMatrix()
 {
-	glm::vec3 Equipment_Side = glm::normalize(glm::cross(Equipment_DIR, glm::vec3(0.f, 1.0f, 0.f)));
-	glm::vec3 Equipment_Up = glm::normalize(glm::cross(Equipment_Side, Equipment_DIR));
+	glm::vec3 Equipment_Right = glm::normalize(glm::cross(Equipment_DIR, glm::vec3(0.f, 1.0f, 0.f)));
+	glm::vec3 Equipment_Up = glm::normalize(glm::cross(Equipment_Right, Equipment_DIR));
 	glm::mat4 Equipment_Rotation_Matrix = glm::mat4({
-		Equipment_Side.x,Equipment_Side.y,Equipment_Side.z,0,
+		Equipment_Right.x,Equipment_Right.y,Equipment_Right.z,0,
 		Equipment_Up.x,Equipment_Up.y,Equipment_Up.z ,0,
 		Equipment_DIR.x,Equipment_DIR.y,Equipment_DIR.z,0,
 		0.,0.,0.,1.,
@@ -107,9 +107,11 @@ void drawObjectColor(Core::RenderContext& context, glm::mat4 modelMatrix, glm::v
 
 void renderScene(GLFWwindow* window)
 {
+	// Clearing the color and z-depth buffers
 	glClearColor(0.0f, 0.3f, 0.3f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	//glm::mat4 transformation; Czy to potrzebne? Na razie nie usuwaæ!
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
+	
+
 	glm::mat4 Equipment_Matrix = createEquipmentMatrix();
 
 	// Stores the elapsed time since the window was started
@@ -188,13 +190,16 @@ void renderScene(GLFWwindow* window)
 
 	// Disabling a given shader (if zero - then disabling the currently used one)
 	glUseProgram(0);
-	glfwSwapBuffers(window); 
+
+	// Changes the color buffer (double buffering)
+	glfwSwapBuffers(window);  
 }
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
 	aspectRatio = width / float(height);
 	glViewport(0, 0, width, height);
 }
+
 void loadModelToContext(std::string path, Core::RenderContext& context)
 {
 	Assimp::Importer import;
@@ -211,16 +216,17 @@ void loadModelToContext(std::string path, Core::RenderContext& context)
 
 void init(GLFWwindow* window)
 {
+	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+	glEnable(GL_DEPTH_TEST); // z-buffor test ON
+
 	// If we play with mouseand keyboard - the following functions will be unlocked
 	if (!gamepad) {
 		glfwSetMouseButtonCallback(window, mouse_button_callback); // Enable keyboard buttons
 		glfwSetInputMode(window, GLFW_STICKY_MOUSE_BUTTONS, GLFW_TRUE); // Enable mouse buttons
 		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED); // Turns off the cursor visibilityand the ability to exit the window
+		glfwSetCursorPosCallback(window, mouse_callback); // detects cursor position change
 	}
 	
-	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
-
-	glEnable(GL_DEPTH_TEST);
 	program = shaderLoader.CreateProgram("shaders/shader_5_1.vert", "shaders/shader_5_1.frag");
 	
 	loadModelToContext("./models/sphere.obj", sphereContext);
@@ -238,14 +244,9 @@ void shutdown(GLFWwindow* window)
 void renderLoop(GLFWwindow* window) {
 	while (!glfwWindowShouldClose(window))
 	{
-		// If we play with mouseand keyboard - the following function will be unlocked
-		if (!gamepad) {
-			glfwSetCursorPosCallback(window, mouse_callback);
-		}
-
+		getFrameTime();
 		processInput(window);
-
 		renderScene(window);
-		glfwPollEvents();
+		glfwPollEvents(); // Detects events 
 	}
 }

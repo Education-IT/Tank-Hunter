@@ -34,6 +34,18 @@ bool rpg7_hiding = false;
 bool flashlight_to_RPG7 = false;
 bool RPG7_to_flashlight = false;
 
+
+float deltaFrame = 0.0f;	// time between current frame and last frame
+float lastFrame = 0.0f;
+
+
+void getFrameTime() {
+	float currentFrame = static_cast<float>(glfwGetTime());
+	deltaFrame = currentFrame - lastFrame;
+	lastFrame = currentFrame;
+
+}
+
 // Get the current start time of the animation
 void getAnimationTime(float& StartTime, float delta2) {
 	if (StartTime <= 0) {

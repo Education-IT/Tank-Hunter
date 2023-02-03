@@ -7,12 +7,13 @@ float pitch = 0.0f;
 float lastX = 800.0f / 2.0;
 float lastY = 800.0f / 2.0;
 
-glm::vec3 cameraUp = glm::vec3(0.0f, 0.001f, 0.0f);
+
+glm::vec3 cameraUp = glm::vec3(0.0f, 1.f, 0.0f);
 glm::vec3 cameraPos = glm::vec3(0.f, 0.f, 4.f);
 glm::vec3 cameraDir = glm::normalize(cameraPos - glm::vec3(0.f, 0.f, 0.f));
 
-glm::vec3 Equipment_POS = glm::vec3(0.f, 0.f, 4.f);
-glm::vec3 Equipment_DIR = glm::normalize(Equipment_POS - glm::vec3(0.f, 0.f, 0.f));
+glm::vec3 Equipment_POS;
+glm::vec3 Equipment_DIR;
 
 // Control settings - depending on the keyboard / gamepad
 bool Exit;
@@ -69,10 +70,10 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 
 void processInput(GLFWwindow* window)
 {
-	glm::vec3 cameraSide = glm::normalize(glm::cross(cameraDir, glm::vec3(0.f, 1.f, 0.f)));
+	//glm::vec3 cameraRight = glm::normalize(glm::cross(cameraDir, glm::vec3(0.f, 1.f, 0.f)));
 	bool moveXYZ = false;
-	float moveSpeed = 0.0025f;
-
+	//float moveSpeed = 0.0025f;
+	float moveSpeed = static_cast<float>(2 * deltaFrame);
 
 	int axesCount;
 	const float* axes = glfwGetJoystickAxes(GLFW_JOYSTICK_1, &axesCount);
@@ -124,19 +125,18 @@ void processInput(GLFWwindow* window)
 
 		cameraPos += -(cameraDir * moveSpeed * axes[1]);
 		cameraPos += glm::normalize(glm::cross(cameraDir, cameraUp)) * moveSpeed * axes[0];
-		if ((glm::abs(axes[2]) > 0.1 || glm::abs(axes[3]) > 0.1)) {
+		if (axes[2] != GLFW_RELEASE && axes[3] != GLFW_RELEASE) {
 
-			float xpos = static_cast<float>(axes[2]);
-			float ypos = static_cast<float>(axes[3]);
-
-
-			glm::vec3 front;
-			front.x = cos(xpos) * cos(-ypos);
-			front.y = sin(-ypos);
-			front.z = sin(xpos) * cos(-ypos);
-			cameraDir = glm::normalize(front);
+			float xxx = static_cast<float>(axes[2]);
+			float yyy = static_cast<float>(axes[3]);
+			
+			glm::vec3 frontx;
+			frontx.x = cos(xxx) * cos(-yyy);
+			frontx.y = sin(-yyy);
+			frontx.z = sin(xxx) * cos(-yyy);
+			cameraDir = glm::normalize(frontx);
 		}
-
+	
 	}
 	else { // KEYBOARD AND MOUSE! ---------------------------------------------------------
 		Exit = glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS;
@@ -148,15 +148,15 @@ void processInput(GLFWwindow* window)
 		Flash = glfwGetKey(window, GLFW_KEY_F) == GLFW_PRESS;
 		Rpg = glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS;
 		
-			if (Forward) {
+			if (Forward) { 
 				cameraPos += cameraDir * moveSpeed;
 				moveXYZ = true;
 			}
 			if (Backward){
 				cameraPos -= cameraDir * moveSpeed;
 				moveXYZ = true;
-			}
-			if (Left) {
+			}			//normalizujemy wektor aby nie mieæ zmiennej prêdkoœci!
+			if (Left) { //wykonujemy iloczyn wektorowy poniew¹ tworzymy wektor prostopad³y do naszego kierunku i bêdziemy poruszaæ siê po nim w prawo lub w lewo
 				cameraPos -= glm::normalize(glm::cross(cameraDir, cameraUp)) * moveSpeed;
 				moveXYZ = true;
 			}
@@ -230,6 +230,25 @@ void processInput(GLFWwindow* window)
 // Moving the mouse - moving the camera
 void mouse_callback(GLFWwindow* window, double xposIn, double yposIn)
 {
+	/*
+	Zmieniamy wektor CameraDir na podstawie rotacji myszy (XY) -> wymaga ona trygonemetri!
+	
+	Katy Eulera:
+	1) Pitch -> jak bardzo poatrzmy w górê lub dó³
+	2) Yaw -> jak bardzo patrzymy na boki
+	3) Roll -> jak bardzo robimy beczke / turlamy siê
+	
+	Poziomy ruch myszy wp³ywa na - yaw
+	Pionowy ruch mysyz wp³ywa na - pitch
+
+	Ide¹ jest to , ¿eby zapamietaæ pozycje myszy z ostatniej ramki i nastêpnie obliczyæ
+	jak bardzo ta pozycja sie zmieni³a
+
+	a) Obliczmy przesuniêcie myszy od czasu ostatniej ramki
+	b) Dodajemy wartoœc przesuniêcia do wartoœci pitch i yaw kamery
+	c) Dodajemy pewne ograniczenia likwiduj¹ce b³êdy
+	d) Obliczamy wektor kierunku , normalizujemy go i przypisujemy go do aktualnej zmiennej CameraDir
+	*/
 	float xpos = static_cast<float>(xposIn);
 	float ypos = static_cast<float>(yposIn);
 
@@ -245,7 +264,7 @@ void mouse_callback(GLFWwindow* window, double xposIn, double yposIn)
 	lastX = xpos;
 	lastY = ypos;
 
-	float sensitivity = 0.5f; // change this value to your liking
+	float sensitivity = 0.5f; 
 	xoffset *= sensitivity;
 	yoffset *= sensitivity;
 
@@ -265,4 +284,3 @@ void mouse_callback(GLFWwindow* window, double xposIn, double yposIn)
 	front.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
 	cameraDir = glm::normalize(front);
 }
-
