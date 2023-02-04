@@ -207,7 +207,7 @@ void renderScene(GLFWwindow* window)
 	currentTime = glfwGetTime(); // Stores the elapsed time since the window was started
 	
 	glDepthMask(GL_FALSE);
-	//drawSKYBOX(); //ODKOMENTUJ TO I InitSkybox (w funkcji init) ¿eby mieæ skybox 
+	drawSKYBOX(); //ODKOMENTUJ TO I InitSkybox (w funkcji init) ¿eby mieæ skybox 
 	glDepthMask(GL_TRUE);
 
 	drawEquipment();
@@ -239,7 +239,7 @@ void loadModelToContext(std::string path, Core::RenderContext& context)
 
 void init(GLFWwindow* window)
 {
-	//InitSkybox(); //ODKOMENTUJ TO I DrawSkybox (w render scene) ¿eby mieæ skybox 
+	InitSkybox(); //ODKOMENTUJ TO I DrawSkybox (w render scene) ¿eby mieæ skybox 
 	 
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 	glEnable(GL_DEPTH_TEST); // z-buffor test ON

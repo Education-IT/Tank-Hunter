@@ -7,7 +7,6 @@ uniform vec3 lightPos;
 uniform sampler2D colorTexture;
 //FOG
 uniform vec3 cameraPos;
-in vec4 vertPos;
 //
 
 in vec3 vecNormal;
@@ -19,7 +18,7 @@ out vec4 outColor;
 
 float getFogFactor(float depth)
 {
-    float FogMax = 25.0;
+    float FogMax = 30.0;
     float FogMin = 5;
 
     if (depth >= FogMax) {
@@ -31,18 +30,21 @@ float getFogFactor(float depth)
 	}
 
     return (1 - (FogMax - depth) / (FogMax - FogMin));
+	
 }
 
 
 void main()
-{	
+{	float FogMax = 30.0;
+    float FogMin = 10;
 	//https://vicrucann.github.io/tutorials/osg-shader-fog/
 
 	vec4 fog_colour = vec4( 0.2 , 0.2 , 0.2 , 1.0 );
-	vec4 V = vertPos;
+	vec4 V = vec4(worldPos,1);
 	vec4 cPos = vec4(cameraPos,1.0);
     float depth = distance( cPos, V);
     float alpha = getFogFactor(depth);    
+	 
 	
 	vec3 textureColor = texture2D(colorTexture, -verTexC).xyz;
 	vec3 lightDir = normalize(lightPos-worldPos);

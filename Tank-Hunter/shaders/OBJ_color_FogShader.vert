@@ -9,10 +9,10 @@ uniform mat4 modelMatrix;
 
 out vec3 vecNormal;
 out vec3 worldPos;
-out vec4 vertPos;
+
 
 void main()
-{	vertPos = transformation * vec4(vertexPosition, 1.0);
+{	
 	worldPos = (modelMatrix* vec4(vertexPosition,1)).xyz;
 	vecNormal = (modelMatrix* vec4(vertexNormal,0)).xyz;
 	gl_Position = transformation * vec4(vertexPosition, 1.0);
