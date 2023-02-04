@@ -103,16 +103,28 @@
     <None Include="shaders\OBJ_color_shader.vert">
       <Filter>Shader Files</Filter>
     </None>
-    <None Include="shaders\OBJ_texture_shader.frag">
+    <None Include="shaders\OBJ_texture_FogShader.frag">
       <Filter>Shader Files</Filter>
     </None>
-    <None Include="shaders\OBJ_texture_shader.vert">
+    <None Include="shaders\OBJ_texture_FogShader.vert">
       <Filter>Shader Files</Filter>
     </None>
     <None Include="shaders\Skybox_shader.frag">
       <Filter>Shader Files</Filter>
     </None>
     <None Include="shaders\Skybox_shader.vert">
+      <Filter>Shader Files</Filter>
+    </None>
+    <None Include="shaders\OBJ_texture_shader.frag">
+      <Filter>Shader Files</Filter>
+    </None>
+    <None Include="shaders\OBJ_texture_shader.vert">
+      <Filter>Shader Files</Filter>
+    </None>
+    <None Include="shaders\OBJ_color_FogShader.frag">
+      <Filter>Shader Files</Filter>
+    </None>
+    <None Include="shaders\OBJ_color_FogShader.vert">
       <Filter>Shader Files</Filter>
     </None>
   </ItemGroup>

@@ -20,12 +20,8 @@
 #include "scene.h"
 
 
-
-
 float currentTime;
 float aspectRatio = 1.f; 
-
-
 
 
 //macierz wodoku/kamery przeksztalca wszytskie wspolrzedne swiata we wspolrzedne widoku, ktore sa umieszczone wzgledem pozycji i kierunku kamery
@@ -111,6 +107,11 @@ void drawObjectColor(GLuint ShaderID ,Core::RenderContext& context, glm::mat4 mo
 	glUniformMatrix4fv(glGetUniformLocation(ShaderID, "modelMatrix"), 1, GL_FALSE, (float*)&modelMatrix);
 	glUniform3f(glGetUniformLocation(ShaderID, "color"), color.x, color.y, color.z);
 	glUniform3f(glGetUniformLocation(ShaderID, "lightPos"), 0, 0, 0);
+
+	if (fog) {
+		glUniform3f(glGetUniformLocation(ShaderID, "cameraPos"), cameraPos.x, cameraPos.y, cameraPos.z);
+	}
+
 	Core::DrawContext(context);
 
 	// Disabling a given shader (if zero - then disabling the currently used one)
@@ -119,14 +120,7 @@ void drawObjectColor(GLuint ShaderID ,Core::RenderContext& context, glm::mat4 mo
 
 void drawObjectTexture(GLuint ShaderID , Core::RenderContext& context, glm::mat4 modelMatrix, GLuint textureID) {
 	
-		//Przyk³ad dla wys³ania wiêkszej iloœci tekstur do jednego obiektu
-		/*if (textureID == texture::RPG7){
-			ShaderID = programRPG;
-			Core::SetActiveTexture(texture::RUST, "rust", ShaderID, 1);
-			Core::SetActiveTexture(texture::SCRATCHES, "scratches", ShaderID, 2);
-			
-		}*/
-		glUniform3f(glGetUniformLocation(ShaderID, "cameraDir"), cameraPos.x, cameraPos.y, cameraPos.z);
+	
 		Core::SetActiveTexture(textureID, "colorTexture", ShaderID, 0);
 		drawObjectColor(ShaderID, context, modelMatrix, glm::vec3(0, 0, 0));
 
@@ -213,7 +207,7 @@ void renderScene(GLFWwindow* window)
 	currentTime = glfwGetTime(); // Stores the elapsed time since the window was started
 	
 	glDepthMask(GL_FALSE);
-	drawSKYBOX();
+	//drawSKYBOX(); //ODKOMENTUJ TO I InitSkybox (w funkcji init) ¿eby mieæ skybox 
 	glDepthMask(GL_TRUE);
 
 	drawEquipment();
@@ -245,6 +239,8 @@ void loadModelToContext(std::string path, Core::RenderContext& context)
 
 void init(GLFWwindow* window)
 {
+	//InitSkybox(); //ODKOMENTUJ TO I DrawSkybox (w render scene) ¿eby mieæ skybox 
+	 
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 	glEnable(GL_DEPTH_TEST); // z-buffor test ON
 
@@ -256,10 +252,18 @@ void init(GLFWwindow* window)
 		glfwSetCursorPosCallback(window, mouse_callback); // detects cursor position change
 	}
 	
-	program = shaderLoader.CreateProgram("shaders/OBJ_color_shader.vert", "shaders/OBJ_color_shader.frag");
-	programTex = shaderLoader.CreateProgram("shaders/OBJ_texture_shader.vert", "shaders/OBJ_texture_shader.frag");
+	
+	
+	if (fog) {
+		programTex = shaderLoader.CreateProgram("shaders/OBJ_texture_FogShader.vert", "shaders/OBJ_texture_FogShader.frag");
+		program = shaderLoader.CreateProgram("shaders/OBJ_color_FogShader.vert", "shaders/OBJ_color_FogShader.frag");
+	}
+	else {
+		programTex = shaderLoader.CreateProgram("shaders/OBJ_texture_shader.vert", "shaders/OBJ_texture_shader.frag");
+		program = shaderLoader.CreateProgram("shaders/OBJ_color_shader.vert", "shaders/OBJ_color_shader.frag");
+	}
+	
 	skybox = shaderLoader.CreateProgram("shaders/Skybox_shader.vert", "shaders/Skybox_shader.frag");
-
 
 	
 	loadModelToContext("./models/Equipment/Rpg7.obj", RPG7_Context);
@@ -274,10 +278,8 @@ void init(GLFWwindow* window)
 	texture::TANK = Core::LoadTexture("./textures/tank.jpg");
 	texture::HELICOPTER = Core::LoadTexture("./textures/helicopter.jpg");
 	texture::RUST = Core::LoadTexture("./textures/rust.jpg");
-	//texture::SCRATCHES = Core::LoadTexture("./textures/sratches.jpg");
 	
-
-	InitSkybox();
+	
 }
 
 void shutdown(GLFWwindow* window)
