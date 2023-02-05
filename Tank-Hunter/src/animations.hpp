@@ -180,30 +180,30 @@ void Flashlight_hide_animation(float currentTime) {
 void movement_animation() {
 
 	if (hold) {
-		if (movementX >= -0.005 && !addition && subtraction) {
-			movementX = movementX - 0.000025;
-			movementY = movementY - 0.000005;
-			movementZ = movementZ - 0.0000125;
+		if (movementX >= -0.01 && !addition && subtraction) {
+			movementX = movementX - 0.00005;
+			movementY = movementY - 0.00001;
+			movementZ = movementZ - 0.000015;
 		}
-		if (movementX <= -0.005) {
+		if (movementX <= -0.01) {
 			addition = true;
 			subtraction = false;
 		}
 
-		if (addition && movementX <= 0.005) {
-			movementX = movementX + 0.000025;
-			movementY = movementY + 0.000005;
-			movementZ = movementZ + 0.0000125;
+		if (addition && movementX <= 0.01) {
+			movementX = movementX + 0.00005;
+			movementY = movementY + 0.00001;
+			movementZ = movementZ + 0.000015;
 		}
-		if (movementX >= 0.005) {
+		if (movementX >= 0.01) {
 			subtraction = true;
 			addition = false;
 		}
 
-		if (movementX >= 0.005 && addition && !subtraction) {
-			movementX = movementX + 0.000025;
-			movementY = movementY + 0.000005;
-			movementZ = movementZ + 0.0000125;
+		if (movementX >= 0.01 && addition && !subtraction) {
+			movementX = movementX + 0.00005;
+			movementY = movementY + 0.00001;
+			movementZ = movementZ + 0.000015;
 		}
 	}
 }

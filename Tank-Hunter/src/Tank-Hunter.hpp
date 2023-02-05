@@ -19,12 +19,8 @@
 #include "skybox.h"
 #include "scene.h"
 
-
 float currentTime;
 float aspectRatio = 1.f; 
-
-
-
 
 //macierz wodoku/kamery przeksztalca wszytskie wspolrzedne swiata we wspolrzedne widoku, ktore sa umieszczone wzgledem pozycji i kierunku kamery
 /*
@@ -115,15 +111,21 @@ void drawObjectColor(GLuint ShaderID ,Core::RenderContext& context, glm::mat4 mo
 		glUniform1i(glGetUniformLocation(ShaderID, "on_off"), 0);
 	}
 	
+	
 	if (fog) {
 		glUniform1i(glGetUniformLocation(ShaderID, "fog"), 1);
 	}
 	else {
 		glUniform1i(glGetUniformLocation(ShaderID, "fog"), 0);
 	}
-	
-	
 
+	if (night) {
+		glUniform1i(glGetUniformLocation(ShaderID, "timeOfDay"), 1);
+	}
+	else {
+		glUniform1i(glGetUniformLocation(ShaderID, "timeOfDay"), 0);
+	}
+	
 	glm::mat4 viewProjectionMatrix = createPerspectiveMatrix() * createCameraMatrix();
 	glm::mat4 transformation = viewProjectionMatrix * modelMatrix;
 	glUniformMatrix4fv(glGetUniformLocation(ShaderID, "transformation"), 1, GL_FALSE, (float*)&transformation);
@@ -207,21 +209,21 @@ void drawEquipment() {
 	}
 }
 
+// SZYMON - TUTAJ TWÓRZ MAPKE :)! + W funkcji INIT mo¿esz pobieraæ nowe obiekty / tekstury! :D
 void drawScene(){
 	
 	drawObjectTexture(programTex, Attack_helicopter, glm::scale(glm::vec3(0.06f)), texture::FLASHLIGHT);
 
-	drawObjectTexture(programTex, T34, glm::eulerAngleY(currentTime / 3) * glm::translate(glm::vec3(4.f, 0, 0)) * glm::scale(glm::vec3(0.03f)) * glm::eulerAngleY(currentTime * 2), texture::TANK);
+	drawObjectTexture(programTex, T34, glm::eulerAngleY(currentTime / 3) * glm::translate(glm::vec3(2.f, 0, 0)) * glm::scale(glm::vec3(0.03f)), texture::TANK);
 
 	drawObjectTexture(programTex, T72,
-		glm::eulerAngleY(currentTime / 3) * glm::translate(glm::vec3(4.f, 0, 0)) * glm::eulerAngleY(currentTime) * glm::translate(glm::vec3(1.f, 0, 0)) * glm::scale(glm::vec3(0.005f)), texture::TANK);
+		glm::eulerAngleY(currentTime / 3) * glm::translate(glm::vec3(4.f, 0, 0)) * glm::translate(glm::vec3(2.f, 0, 0)) * glm::scale(glm::vec3(0.003f)), texture::TANK);
 
 }
 
 
 void renderScene(GLFWwindow* window)
 {
-
 	
 	glClearColor(0.0f, 0.3f, 0.3f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  // Clearing the color and z-depth buffers
@@ -274,14 +276,12 @@ void init(GLFWwindow* window)
 		glfwSetCursorPosCallback(window, mouse_callback); // detects cursor position change
 	}
 	
-	
-		programTex = shaderLoader.CreateProgram("shaders/OBJ_texture_FogShader.vert", "shaders/OBJ_texture_FogShader.frag");
-		program = shaderLoader.CreateProgram("shaders/OBJ_color_FogShader.vert", "shaders/OBJ_color_FogShader.frag");
-
-	
+	// SHADERS
+	programTex = shaderLoader.CreateProgram("shaders/OBJ_texture_FogShader.vert", "shaders/OBJ_texture_FogShader.frag");
+	program = shaderLoader.CreateProgram("shaders/OBJ_color_FogShader.vert", "shaders/OBJ_color_FogShader.frag");
 	skybox = shaderLoader.CreateProgram("shaders/Skybox_shader.vert", "shaders/Skybox_shader.frag");
 
-	
+	// MODELS
 	loadModelToContext("./models/Equipment/Rpg7.obj", RPG7_Context);
 	loadModelToContext("./models/Equipment/Flashlight.obj", FlashlightContext);
 	loadModelToContext("./models/cube.obj", cube);
@@ -289,6 +289,7 @@ void init(GLFWwindow* window)
 	loadModelToContext("./models/Vehicles/Jet.obj", T34);
 	loadModelToContext("./models/Vehicles/Helicopter.obj", Attack_helicopter);
 
+	// TEXTURES
 	texture::RPG7 = Core::LoadTexture("./textures/forest_camuflage.png");
 	texture::FLASHLIGHT = Core::LoadTexture("./textures/metal.jpg");
 	texture::TANK = Core::LoadTexture("./textures/tank.jpg");
