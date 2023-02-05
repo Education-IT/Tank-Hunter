@@ -9,7 +9,7 @@ uniform vec3 cameraPos;
 //
 
 in vec3 vecNormal;
-in vec3 worldPos;
+in vec3 vertexPos;
 
 out vec4 outColor;
 
@@ -34,13 +34,13 @@ void main()
 	//https://vicrucann.github.io/tutorials/osg-shader-fog/
 
 	vec4 fog_colour = vec4( 0.2 , 0.2 , 0.2 , 1.0 );
-	vec4 V = vec4(worldPos,1);
+	vec4 V = vec4(vertexPos,1);
 	vec4 cPos = vec4(cameraPos,1.0);
     float depth = distance( cPos, V);
     float alpha = getFogFactor(depth);   
 
 
-	vec3 lightDir = normalize(lightPos-worldPos);
+	vec3 lightDir = normalize(lightPos-vertexPos);
 	vec3 normal = normalize(vecNormal);
 	float diffuse=max(0,dot(normal,lightDir));
 	outColor  = mix(vec4(color*min(1,AMBIENT+diffuse),1.0), fog_colour,alpha);

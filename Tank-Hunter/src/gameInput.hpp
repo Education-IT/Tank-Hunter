@@ -28,6 +28,7 @@ bool AIM;
 bool Action;
 
 
+
 // Mouse button down detection and the corresponding action
 void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 {
@@ -61,7 +62,7 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 			}
 		}
 		else if (flashlight) {
-			// TODO ! TURN ON/OFF FLASHLIGHT!
+			onOff_FL = !onOff_FL;
 		}
 		// TODO ! SHOOTING RPG!
 	}
@@ -116,6 +117,9 @@ void processInput(GLFWwindow* window)
 						reload = !reload;
 					}
 				}
+			}
+			else if (flashlight) {
+				onOff_FL = !onOff_FL;
 			}
 		}
 

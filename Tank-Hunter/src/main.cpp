@@ -5,7 +5,7 @@
 int main(int argc, char** argv)
 {	
 	// Launching the console Main-Menu
-	start_menu();
+	//start_menu();
 
 	// glfw initialization and configuration - Graphics Library Framework Wrangler
 	glfwInit();

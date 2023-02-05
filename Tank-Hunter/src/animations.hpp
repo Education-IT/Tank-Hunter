@@ -33,7 +33,7 @@ bool rpg7_takeOut = false;
 bool rpg7_hiding = false;
 bool flashlight_to_RPG7 = false;
 bool RPG7_to_flashlight = false;
-
+bool onOff_FL = true;
 
 float deltaFrame = 0.0f;	// time between current frame and last frame
 float lastFrame = 0.0f;
@@ -109,6 +109,7 @@ void RPG_aim_animation(float currentTime) {
 }
 
 void RPG_takeOut_animation(float currentTime) {
+	
 	rpg7_takeOut = true;
 
 	getAnimationTime(animStartTime, 0);
@@ -120,6 +121,7 @@ void RPG_takeOut_animation(float currentTime) {
 		rpg7_hide = false;
 		rpg7_takeOut = false;
 		rpg7 = false;
+		
 	}
 }
 
@@ -135,6 +137,9 @@ void RPG_hide_animation(float currentTime) {
 		rpg7_takeOut = false;
 		rpg7_takeOut = false;
 		rpg7_hiding = false;
+		if (onOff_FL) {
+			onOff_FL = true;
+		}
 	}
 }
 
@@ -150,12 +155,15 @@ void Flashlight_takeOut_animation(float currentTime) {
 		animStartTime = 0;
 		flashlight_takeOut = false;
 		flashlight_takingOut = false;
+		onOff_FL = true;
 	}
 }
 
 void Flashlight_hide_animation(float currentTime) {
 	flashlight_hiding = true;
-
+	if (onOff_FL) {
+		onOff_FL = false;
+	}
 	getAnimationTime(animStartTime, 0);
 
 	deltaTime = currentTime - animStartTime;

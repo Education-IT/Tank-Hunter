@@ -8,7 +8,7 @@ uniform mat4 transformation;
 uniform mat4 modelMatrix;
 
 out vec3 vecNormal;
-out vec3 worldPos;
+out vec3 vertexPos;
 out vec2 verTexC;
 
 
@@ -16,7 +16,7 @@ void main()
 
 {		
 	verTexC = vertexTexCoord;
-	worldPos = (modelMatrix* vec4(vertexPosition,1)).xyz;
+	vertexPos = (modelMatrix* vec4(vertexPosition,1)).xyz;
 	vecNormal = (modelMatrix* vec4(vertexNormal,0)).xyz;
 	gl_Position = transformation * vec4(vertexPosition, 1.0);
 }

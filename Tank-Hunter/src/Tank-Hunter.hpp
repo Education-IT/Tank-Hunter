@@ -24,6 +24,8 @@ float currentTime;
 float aspectRatio = 1.f; 
 
 
+
+
 //macierz wodoku/kamery przeksztalca wszytskie wspolrzedne swiata we wspolrzedne widoku, ktore sa umieszczone wzgledem pozycji i kierunku kamery
 /*
 Aby zdefiniowac kamere potrzebujemy jej pozycji w przestrzeni swiata, kierunku w ktorym patrzy, wektora skierowanego w prawo i wektora skierowanego w gore
@@ -64,7 +66,7 @@ glm::mat4 createPerspectiveMatrix()
 	// polo¿enie plaszczyzn obcinania = near i far
 	//aspect ratio - proporcja widoku
 	perspectiveMatrix = glm::mat4({
-		1,0.,0.,0.,
+		aspectRatio,0.,0.,0.,
 		0.,aspectRatio,0.,0.,
 		0.,0.,(f + n) / (n - f), formula,
 		0.,0.,-1.,0.,
@@ -77,12 +79,14 @@ glm::mat4 createEquipmentMatrix()
 {
 	glm::vec3 Equipment_Right = glm::normalize(glm::cross(Equipment_DIR, glm::vec3(0.f, 1.0f, 0.f)));
 	glm::vec3 Equipment_Up = glm::normalize(glm::cross(Equipment_Right, Equipment_DIR));
+	
 	glm::mat4 Equipment_Rotation_Matrix = glm::mat4({
 		Equipment_Right.x,Equipment_Right.y,Equipment_Right.z,0,
 		Equipment_Up.x,Equipment_Up.y,Equipment_Up.z ,0,
 		Equipment_DIR.x,Equipment_DIR.y,Equipment_DIR.z,0,
 		0.,0.,0.,1.,
 		});
+	
 	return Equipment_Rotation_Matrix;
 }
 
@@ -99,18 +103,36 @@ void drawSKYBOX() {
 }
 
 void drawObjectColor(GLuint ShaderID ,Core::RenderContext& context, glm::mat4 modelMatrix, glm::vec3 color) {
-
+	
+		
+	
 	glUseProgram(ShaderID); // Activating a specific shader
+
+	if (flashlight && onOff_FL) {
+		glUniform1i(glGetUniformLocation(ShaderID, "on_off"), 1);
+	}
+	else {
+		glUniform1i(glGetUniformLocation(ShaderID, "on_off"), 0);
+	}
+	
+	if (fog) {
+		glUniform1i(glGetUniformLocation(ShaderID, "fog"), 1);
+	}
+	else {
+		glUniform1i(glGetUniformLocation(ShaderID, "fog"), 0);
+	}
+	
+	
+
 	glm::mat4 viewProjectionMatrix = createPerspectiveMatrix() * createCameraMatrix();
 	glm::mat4 transformation = viewProjectionMatrix * modelMatrix;
 	glUniformMatrix4fv(glGetUniformLocation(ShaderID, "transformation"), 1, GL_FALSE, (float*)&transformation);
 	glUniformMatrix4fv(glGetUniformLocation(ShaderID, "modelMatrix"), 1, GL_FALSE, (float*)&modelMatrix);
 	glUniform3f(glGetUniformLocation(ShaderID, "color"), color.x, color.y, color.z);
-	glUniform3f(glGetUniformLocation(ShaderID, "lightPos"), 0, 0, 0);
-
-	if (fog) {
-		glUniform3f(glGetUniformLocation(ShaderID, "cameraPos"), cameraPos.x, cameraPos.y, cameraPos.z);
-	}
+	glUniform1f(glGetUniformLocation(ShaderID, "cutOff"), glm::cos(glm::radians(12.5f)));
+	glUniform1f(glGetUniformLocation(ShaderID, "outerCutOff"), glm::cos(glm::radians(15.0f)));
+	glUniform3f(glGetUniformLocation(ShaderID, "cameraDir"), cameraDir.x, cameraDir.y, cameraDir.z);
+	glUniform3f(glGetUniformLocation(ShaderID, "cameraPos"), cameraPos.x, cameraPos.y, cameraPos.z);
 
 	Core::DrawContext(context);
 
@@ -253,15 +275,9 @@ void init(GLFWwindow* window)
 	}
 	
 	
-	
-	if (fog) {
 		programTex = shaderLoader.CreateProgram("shaders/OBJ_texture_FogShader.vert", "shaders/OBJ_texture_FogShader.frag");
 		program = shaderLoader.CreateProgram("shaders/OBJ_color_FogShader.vert", "shaders/OBJ_color_FogShader.frag");
-	}
-	else {
-		programTex = shaderLoader.CreateProgram("shaders/OBJ_texture_shader.vert", "shaders/OBJ_texture_shader.frag");
-		program = shaderLoader.CreateProgram("shaders/OBJ_color_shader.vert", "shaders/OBJ_color_shader.frag");
-	}
+
 	
 	skybox = shaderLoader.CreateProgram("shaders/Skybox_shader.vert", "shaders/Skybox_shader.frag");
 

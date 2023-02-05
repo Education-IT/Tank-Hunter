@@ -41,12 +41,8 @@
   <ItemGroup>
     <None Include="shaders\OBJ_color_FogShader.frag" />
     <None Include="shaders\OBJ_color_FogShader.vert" />
-    <None Include="shaders\OBJ_color_shader.frag" />
-    <None Include="shaders\OBJ_color_shader.vert" />
     <None Include="shaders\OBJ_texture_FogShader.frag" />
     <None Include="shaders\OBJ_texture_FogShader.vert" />
-    <None Include="shaders\OBJ_texture_shader.frag" />
-    <None Include="shaders\OBJ_texture_shader.vert" />
     <None Include="shaders\Skybox_shader.frag" />
     <None Include="shaders\Skybox_shader.vert" />
   </ItemGroup>
