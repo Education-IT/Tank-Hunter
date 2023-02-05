@@ -12,17 +12,19 @@
 ## Projekt zawiera:
 
 
-* Menu główne w którym możemy dokonać kilku zmian w ustawieniach - wpływających na rozgrywkę:
-a)  Włączenie / wyłączenie mgły. (szary kolor)
-b) Noc / zachód słońca  -> W zależności od wyboru, czeka nas inny: skybox, koloru światła kierunkowego i jego pozycja.
+Menu główne w którym możemy dokonać kilku zmian w ustawieniach - wpływających na rozgrywkę:
+* Włączenie / wyłączenie mgły. (szary kolor)
+* Noc / zachód słońca  -> W zależności od wyboru, czeka nas inny: skybox, koloru światła kierunkowego i jego pozycja.
 
-* Latarka / RPG-7 :
- a) Latarka - Spotlight (białe światło) - możliwość włączenia/wyłączenia za pomocą LPM. Animacja wyjmowania/chowania/chodzenia. 
- b) RPG7 - możliwość celowania za pomocą PPM. Możliwość przeładowania za pomocą LPM. Animacja wyjmowania/chowania/chodzenia.
+* Latarka - Spotlight (białe światło) - możliwość włączenia/wyłączenia za pomocą LPM. Animacja wyjmowania/chowania/chodzenia. 
+* RPG7 - możliwość celowania za pomocą PPM. Możliwość przeładowania za pomocą LPM. Animacja wyjmowania/chowania/chodzenia.
  
 * Zaimplementowane poruszanie się i rozglądanie - zarówna za pomocą klawiatury i myszki, jak i za pomocą gamepada. Po wyborze gry za pomocą PADa, następuje funkcja sprawdzająca, czy na pewno został od podłączony - jeśli nie -> przełączamy się na tryb klawiatury i myszki. 
+
 * Animacja skoku
+
 *  Dodatkowe obiekty w ruchu -> Myśliwce latające nad naszą mapą.
+
 * Animacje powstały na skutek wymyślonych i zaimplementowanych prze zemnie funckji które działając na zmiennych globalnych i czasie - zmieniają odpowiednie macierze translacji i rotacji.
  
 
