@@ -1,3 +1,4 @@
+
 ![Tank-hunter the game](https://raw.githubusercontent.com/Education-IT/Tank-Hunter/main/banner.png)
 ## Projekt zaliczeniowy na przedmiot - ***Grafika komputerowa*** - **UAM**
 
@@ -21,7 +22,11 @@ Menu główne w którym możemy dokonać kilku zmian w ustawieniach - wpływają
  
 * Zaimplementowane poruszanie się i rozglądanie - zarówna za pomocą klawiatury i myszki, jak i za pomocą gamepada. Po wyborze gry za pomocą PADa, następuje funkcja sprawdzająca, czy na pewno został od podłączony - jeśli nie -> przełączamy się na tryb klawiatury i myszki. 
 
-* Animacja skoku
+* Proste animacje symulujące efekt chodzenia, skoku oraz biegu. (Brak możliwości biegu podczas celowania / występuje możliwość skoku podczas celowania)
+
+* Zabezpieczenie przed wyjściem poza obszar sceny. (Poza mapę)
+
+* Śledzenie zmiennej "deltaTime", która przechowuje czas, który był potrzebny do wyrenderowania ostatniej klatki. Balansuje to rozgrywkę. Nie ma znaczenia, szybkość komputera -> prędkość poruszania się kamery będzie odpowiednio wyważona, dzięki czemu każdy użytkownik będzie miał takie samo doświadczenie z gry.
 
 *  Dodatkowe obiekty w ruchu -> Myśliwce latające nad naszą mapą.
 
