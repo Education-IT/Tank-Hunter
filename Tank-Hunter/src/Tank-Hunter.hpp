@@ -221,6 +221,8 @@ void drawScene(){
 	drawObjectTexture(programTex, T72,
 		glm::eulerAngleY(currentTime / 3) * glm::translate(glm::vec3(4.f, 0, 0)) * glm::translate(glm::vec3(3.5f, -0.4f, 0)) * glm::scale(glm::vec3(0.006f)), texture::TANK);
 	
+
+
 	drawObjectTexture(programTex, grass, glm::translate(glm::vec3(0.f, -4.5f, 0))*glm::eulerAngleX(-1.57079f) * glm::scale(glm::vec3(0.35f)), texture::GRASS);
 }
 
@@ -241,7 +243,9 @@ void renderScene(GLFWwindow* window)
 
 	drawEquipment();
 	drawScene();
-	
+
+	drawObjectTexture(programTex, Jet,
+		glm::eulerAngleY(-currentTime / 2.4f) * glm::translate(glm::vec3(32.f, 22.f, 0)) * glm::eulerAngleZ(1.05f) * glm::eulerAngleX(-0.18f) * glm::scale(glm::vec3(0.6f)), texture::FLASHLIGHT);
 
 	glfwSwapBuffers(window);  	// Changes the color buffer (double buffering)
 }
@@ -293,10 +297,10 @@ void init(GLFWwindow* window)
 	loadModelToContext("./models/Equipment/Flashlight.obj", FlashlightContext);
 	loadModelToContext("./models/cube.obj", cube);
 	loadModelToContext("./models/Vehicles/T72.obj", T72);
-	loadModelToContext("./models/Vehicles/Jet.obj", T34);
+	loadModelToContext("./models/Vehicles/T34.obj", T34);
 	loadModelToContext("./models/Vehicles/Helicopter.obj", Helicopter);
 	loadModelToContext("./models/grass.obj", grass);
-
+	loadModelToContext("./models/Vehicles/Jet.obj", Jet);
 
 	// TEXTURES
 	texture::RPG7 = Core::LoadTexture("./textures/forest_camuflage.png");

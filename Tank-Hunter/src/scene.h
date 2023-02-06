@@ -1,12 +1,10 @@
-Core::RenderContext sphereContext;
-Core::RenderContext shipContext;
 Core::RenderContext RPG7_Context;
 Core::RenderContext FlashlightContext;
 Core::RenderContext T72;
 Core::RenderContext T34;
 Core::RenderContext Helicopter;
 Core::RenderContext grass;
-Core::RenderContext bottle;
+Core::RenderContext Jet;
 // GLuint = opengl UnsignedINT!!!
 GLuint program; // Shader ID
 GLuint programTex;

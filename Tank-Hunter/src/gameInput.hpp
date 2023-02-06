@@ -78,15 +78,15 @@ void Jump_Animation(float currentTime) {
 	jumpDelta = currentTime - jumpAnimation;
 	if (jumpDelta <= 0.5) {
 		if (jumpDelta >= 0.25) {
-			cameraPos.y -= 0.005f;
+			cameraPos.y -= 0.005f * run;
 		}
 		else {
-			cameraPos.y += 0.005f;
+			cameraPos.y += 0.005f * run;
 		}
 	}
 	else {
 		if (cameraPos.y >= 0.01f) {
-			cameraPos.y -= 0.01;
+			cameraPos.y -= 0.01 * run;
 		}
 		else {
 			jumpAnimation = 0;
@@ -115,7 +115,11 @@ void processInput(GLFWwindow* window)
 	//Fast run (only when we don't aim)
 	if (!aiming && !animationAming) {
 		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
-			run = 4;
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!	
+/*!!!!!!!!!!!!!!!!!!!!*/run = 5;//ZMIEÑ PRZED ODDANIEM NA MAX 2.5! TO JEST TYLKO PO TO ¯EBY £ATWOIEJ BY£O BUDOWAC MAPE!
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//! //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//!//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	}
 
 	if (gamepad) {
