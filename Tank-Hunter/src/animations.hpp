@@ -6,6 +6,7 @@ float movementZ = 0;
 bool subtraction = true;
 bool addition = false;
 
+int run;
 
 // Equipment animation
 bool returnToHold = false;
@@ -19,6 +20,8 @@ float animStartTime = 0;
 float returnStartTime = 0;
 float deltaTime2 = 0.f;
 
+float jumpAnimation = 0;
+float jumpDelta = 0;
 
 // Inventory change logic
 bool flashlight = true;
@@ -55,6 +58,7 @@ void getAnimationTime(float& StartTime, float delta2) {
 		}
 	}
 }
+
 
 
 void RPG_reload_animation(float currentTime) {
@@ -181,9 +185,9 @@ void movement_animation() {
 
 	if (hold) {
 		if (movementX >= -0.01 && !addition && subtraction) {
-			movementX = movementX - 0.00005;
-			movementY = movementY - 0.00001;
-			movementZ = movementZ - 0.000015;
+			movementX = movementX - 0.00005 * run;
+			movementY = movementY - 0.00001 * run;
+			movementZ = movementZ - 0.000015 * run;
 		}
 		if (movementX <= -0.01) {
 			addition = true;
@@ -191,9 +195,9 @@ void movement_animation() {
 		}
 
 		if (addition && movementX <= 0.01) {
-			movementX = movementX + 0.00005;
-			movementY = movementY + 0.00001;
-			movementZ = movementZ + 0.000015;
+			movementX = movementX + 0.00005 * run;
+			movementY = movementY + 0.00001 * run;
+			movementZ = movementZ + 0.000015 * run;
 		}
 		if (movementX >= 0.01) {
 			subtraction = true;
@@ -201,9 +205,9 @@ void movement_animation() {
 		}
 
 		if (movementX >= 0.01 && addition && !subtraction) {
-			movementX = movementX + 0.00005;
-			movementY = movementY + 0.00001;
-			movementZ = movementZ + 0.000015;
+			movementX = movementX + 0.00005 * run;
+			movementY = movementY + 0.00001 * run;
+			movementZ = movementZ + 0.000015 * run;
 		}
 	}
 }

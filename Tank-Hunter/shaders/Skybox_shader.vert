@@ -13,4 +13,5 @@ void main()
 {
 	texCoord = vertexPosition;
 	gl_Position = transformation * VIEW * vec4(vertexPosition, 1.0);
+	
 }

@@ -27,6 +27,7 @@ bool Rpg;
 bool AIM;
 bool Action;
 
+bool jumping = false;
 
 
 // Mouse button down detection and the corresponding action
@@ -68,18 +69,54 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 	}
 }
 
+void Jump_Animation(float currentTime) {
+	if (jumpAnimation <= 0) {
+		jumpAnimation = glfwGetTime();
+
+	}
+
+	jumpDelta = currentTime - jumpAnimation;
+	if (jumpDelta <= 0.5) {
+		if (jumpDelta >= 0.25) {
+			cameraPos.y -= 0.005f;
+		}
+		else {
+			cameraPos.y += 0.005f;
+		}
+	}
+	else {
+		if (cameraPos.y >= 0.01f) {
+			cameraPos.y -= 0.01;
+		}
+		else {
+			jumpAnimation = 0;
+			jumpDelta = 0;
+			jumping = false;
+			cameraPos.y = 0.0f;
+		}
+		
+	}
+
+
+}
+
 
 void processInput(GLFWwindow* window)
 {
-	//glm::vec3 cameraRight = glm::normalize(glm::cross(cameraDir, glm::vec3(0.f, 1.f, 0.f)));
+	
 	bool moveXYZ = false;
-	//float moveSpeed = 0.0025f;
 	float moveSpeed = static_cast<float>(2 * deltaFrame);
-
+	run = 1;
 	int axesCount;
 	const float* axes = glfwGetJoystickAxes(GLFW_JOYSTICK_1, &axesCount);
 	int buttonCount;
 	const unsigned char* buttons = glfwGetJoystickButtons(GLFW_JOYSTICK_1, &buttonCount);
+
+	//Fast run (only when we don't aim)
+	if (!aiming && !animationAming) {
+		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
+			run = 4;
+	}
 
 	if (gamepad) {
 		Exit = GLFW_PRESS == buttons[GLFW_GAMEPAD_BUTTON_DPAD_DOWN];
@@ -153,23 +190,33 @@ void processInput(GLFWwindow* window)
 		Rpg = glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS;
 		
 			if (Forward) { 
-				cameraPos += cameraDir * moveSpeed;
+				cameraPos += cameraDir * moveSpeed * run;
 				moveXYZ = true;
 			}
 			if (Backward){
-				cameraPos -= cameraDir * moveSpeed;
+				cameraPos -= cameraDir * moveSpeed * run;
 				moveXYZ = true;
 			}			//normalizujemy wektor aby nie mieæ zmiennej prêdkoœci!
 			if (Left) { //wykonujemy iloczyn wektorowy poniew¹ tworzymy wektor prostopad³y do naszego kierunku i bêdziemy poruszaæ siê po nim w prawo lub w lewo
-				cameraPos -= glm::normalize(glm::cross(cameraDir, cameraUp)) * moveSpeed;
+				cameraPos -= glm::normalize(glm::cross(cameraDir, cameraUp)) * moveSpeed * run;
 				moveXYZ = true;
 			}
 			if (Right) {
-				cameraPos += glm::normalize(glm::cross(cameraDir, cameraUp)) * moveSpeed;
+				cameraPos += glm::normalize(glm::cross(cameraDir, cameraUp)) * moveSpeed * run;
 				moveXYZ = true;
 			}
 			//PÓKI CO MO¯NA SWOBODNIE LATAÆ! ¯eby temu zapobiec odkomentuj ten wiersz kodu!
-			//cameraPos.y = 0.0f; 
+			if (!jumping)
+			{
+				cameraPos.y = 0.0;
+
+			}
+
+			if (cameraPos.y < 0.0){
+				cameraPos.y = 0.0f;
+			}
+			
+			
 	}
 
 
@@ -178,8 +225,12 @@ void processInput(GLFWwindow* window)
 	}
 
 	if (Jump) {
-		std::cout << "JUMP!"; // <- TODO! JUMPING! 
+		if (!jumping) {
+			jumping = true;
+		}
 	}
+
+	
 
 
 	if (Flash || RPG7_to_flashlight) {
@@ -222,6 +273,19 @@ void processInput(GLFWwindow* window)
 	// If moving is detected - turn on walking animation
 	if (moveXYZ) {
 		movement_animation();
+	}
+
+	if (cameraPos.x < -20) {
+		cameraPos.x = -20;
+	}
+	if (cameraPos.x > 20) {
+		cameraPos.x = 20;
+	}
+	if (cameraPos.z < -20) {
+		cameraPos.z = -20;
+	}
+	if (cameraPos.z > 20) {
+		cameraPos.z = 20;
 	}
 
 	// Where we look - there follows the equipment

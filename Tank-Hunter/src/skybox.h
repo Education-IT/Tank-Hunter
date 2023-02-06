@@ -6,6 +6,7 @@ GLuint skybox_context;
 void InitSkybox() {
 	glGenTextures(1, &skybox_context);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, skybox_context);
+	
 	int w, h;
 	
 	char* zero;
