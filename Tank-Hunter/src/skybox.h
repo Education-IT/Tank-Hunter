@@ -16,17 +16,8 @@ void InitSkybox() {
 	char* four;
 	char* five;
 
-	if (day) {
-
-		zero = "textures/skybox/day/sky_0.png";
-		one = "textures/skybox/day/sky_1.png";
-		two = "textures/skybox/day/sky_2.png";
-		three = "textures/skybox/day/sky_3.png";
-		four = "textures/skybox/day/sky_4.png";
-		five = "textures/skybox/day/sky_5.png";
-
-	}
-	else if (night) {
+	
+	if (night) {
 
 		zero = "textures/skybox/night/sky_0.png";
 		one = "textures/skybox/night/sky_1.png";

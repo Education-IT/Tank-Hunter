@@ -44,23 +44,23 @@ void main()
 		lightColor = vec3(1.0 , 1.0 ,1.0); //NIGHT
 		lightDir = normalize(vec3( 0.7f , 0.7f , -0.8f ));  //NIGHT
 	}else{
-		lightColor = vec3(1.0f , 0.62f , 0.46f); //SUNSET
+		lightColor = vec3(1.0f , 0.45f , 0.35f); //SUNSET
 		lightDir = normalize(vec3( 0.6f , 0.5f , -0.3f ));  //SUNSET
 	}
 	float diff = max(dot(normal,lightDir), 0.0); //iloczyn skalarny (obliczenie konta miêdzy wektorem normalnym a promieniem swiatla) mniejszy jest k¹t miêdzy dwoma wektorami jednostkowymi, tym bardziej iloczyn skalarny jest nachylony w kierunku wartoœci 1. Gdy k¹t miêdzy dwoma wektorami wynosi 90 stopni, iloczyn skalarny przyjmuje wartoœæ 0 - im wiêkszy k¹t tym mniejszy wp³yw œwiat³a na kolor fragmentu. Jeœli k¹t miêdzy obydwoma wektorami jest wiêkszy ni¿ 90 stopni, wynik iloczynu skalarnego faktycznie stanie siê ujemny i otrzymamy ujemny komponent rozproszony. Z tego powodu u¿ywamy funkcji max
 	vec3 diffuse = diff * lightColor;
 
 	//AMBIENT -> constant ambient lighting ///////////////////////////////////////////////////////////////
-	float ambientStrength = 0.04;
+	float ambientStrength = 0.001;
 	vec3 ambient = ambientStrength * lightColor;
 
 	
 	//Specular lighting //////simulates a bright spot of light that appears on shiny objects//////////////////////
-	float specularStrength = 0.5;
+	float specularStrength = 0.1;
 	
 	vec3 vViev = normalize(cameraPos-vertexPos); //wektor kierunku widoku
 	vec3 vRefl = reflect(-lightDir,normal); //wektor odbicia wzd³óŸ osi normlnej -> Funkcja reflect oczekuje, ¿e pierwszy wektor wskazuje od Ÿród³a œwiat³a w kierunku po³o¿enia fragmentu,
-	float spec = pow(max(dot(vViev,vRefl),0.0),1000);
+	float spec = pow(max(dot(vViev,vRefl),0.0),36);
 	vec3 specular = specularStrength * spec * lightColor;
 
 
@@ -107,7 +107,7 @@ void main()
 		float depthZ = distance( camPos, VerPos); //distance between the camera and the vertex
 		float alpha = getFogFactor(depthZ);    
 
-		color = mix( textureColor * ( ambient + specular + diffuse + result ) , fog_colour, alpha ); //Mixing the color of the object's texture with the color of the fog. (alpha factor)
+		color =  mix( textureColor * ( 0.7*(ambient + specular + diffuse) + 1.3*result ) , fog_colour, alpha ); //Mixing the color of the object's texture with the color of the fog. (alpha factor)
 	}
 	else{
 		color = textureColor * ( ambient + specular + diffuse + result );

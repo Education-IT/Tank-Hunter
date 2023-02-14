@@ -213,17 +213,130 @@ void drawEquipment() {
 	}
 }
 
-// SZYMON - TUTAJ TWÓRZ MAPKE :)! + W funkcji INIT mo¿esz pobieraæ nowe obiekty / tekstury! :D
-void drawScene(){
+
+void drawScene() {
+
 	
-	drawObjectTexture(programTex, Helicopter, glm::translate(glm::vec3(-1.f, -0.8f, -4.f)) * glm::scale(glm::vec3(0.1f)), texture::FLASHLIGHT);
+	//Obwód mapy
+	drawObjectTexture(programTex, deadTree1, glm::translate(glm::vec3(48.f, -1.f, -40.f)) * glm::scale(glm::vec3(3.f)), texture::DEADTREE1);
+	drawObjectTexture(programTex, deadTree1, glm::translate(glm::vec3(48.f, -1.f, -35.f)) * glm::scale(glm::vec3(2.5f)), texture::DEADTREE1);
+	drawObjectTexture(programTex, deadTree1, glm::translate(glm::vec3(48.f, -1.7f, -28.f)) * glm::scale(glm::vec3(2.8f)), texture::DEADTREE1);
+	drawObjectTexture(programTex, deadTree1, glm::translate(glm::vec3(48.f, -1.7f, -20.f)) * glm::scale(glm::vec3(3.f)), texture::DEADTREE1);
+	drawObjectTexture(programTex, deadTree1, glm::translate(glm::vec3(48.f, -1.7f, -14.f)) * glm::scale(glm::vec3(2.f)), texture::DEADTREE1);
+	drawObjectTexture(programTex, deadTree1, glm::translate(glm::vec3(48.f, -1.6f, -11.f)) * glm::scale(glm::vec3(2.4f)), texture::DEADTREE1);
+	drawObjectTexture(programTex, deadTree1, glm::translate(glm::vec3(48.f, -1.5f, -6.f)) * glm::scale(glm::vec3(3.f)), texture::DEADTREE1);
+	drawObjectTexture(programTex, deadTree1, glm::translate(glm::vec3(48.f, -1.5f, -2.f)) * glm::scale(glm::vec3(2.f)), texture::DEADTREE1);
+	drawObjectTexture(programTex, deadTree1, glm::translate(glm::vec3(48.f, -1.4f, 4.f)) * glm::scale(glm::vec3(2.8f)), texture::DEADTREE1);
+	drawObjectTexture(programTex, deadTree1, glm::translate(glm::vec3(48.f, -1.4f, 10.f)) * glm::scale(glm::vec3(2.2f)), texture::DEADTREE1);
+	drawObjectTexture(programTex, deadTree1, glm::translate(glm::vec3(48.f, -1.4f, 15.f)) * glm::scale(glm::vec3(2.6f)), texture::DEADTREE1);
+	drawObjectTexture(programTex, deadTree1, glm::translate(glm::vec3(48.f, -1.4f, 21.f)) * glm::scale(glm::vec3(3.1f)), texture::DEADTREE1);
+	drawObjectTexture(programTex, deadTree1, glm::translate(glm::vec3(48.f, -1.6f, 28.f)) * glm::scale(glm::vec3(2.5f)), texture::DEADTREE1);
+	drawObjectTexture(programTex, deadTree1, glm::translate(glm::vec3(48.f, -1.5f, 34.f)) * glm::scale(glm::vec3(2.9f)), texture::DEADTREE1);
+	drawObjectTexture(programTex, deadTree1, glm::translate(glm::vec3(48.f, -1.4f, 40.f)) * glm::scale(glm::vec3(3.f)), texture::DEADTREE1);
 
-	drawObjectTexture(programTex, T72,
-		glm::eulerAngleY(currentTime / 3) * glm::translate(glm::vec3(4.f, 0, 0)) * glm::translate(glm::vec3(3.5f, -0.4f, 0)) * glm::scale(glm::vec3(0.006f)), texture::TANK);
-	
+	drawObjectTexture(programTex, T72, glm::translate(glm::vec3(30.f, -0.7f, 0.f)) * glm::eulerAngleY(3.1415926536f) * glm::scale(glm::vec3(0.008f)), texture::RPG7);
+
+	drawObjectTexture(programTex, destroyedHelicopter, glm::translate(glm::vec3(27.f, -1.5f, -32.f)) * glm::eulerAngleY(-1.1f) * glm::scale(glm::vec3(1.f)), texture::RUST);
+
+	drawObjectTexture(programTex, Rocks, glm::translate(glm::vec3(30.f, -1.3f, -30.f)) * glm::eulerAngleY(1.57079f) * glm::scale(glm::vec3(1.8f)), texture::ROCKS);
+
+	drawObjectTexture(programTex, Rocks, glm::translate(glm::vec3(30.f, -1.3f, 30.f)) * glm::scale(glm::vec3(1.8f)), texture::ROCKS);
+
+	drawObjectTexture(programTex, destroyedHelicopter, glm::translate(glm::vec3(10.f, -2.f, 40.f)) * glm::eulerAngleY(3.1415926536f) * glm::scale(glm::vec3(1.f)), texture::RUST);
+
+	drawObjectTexture(programTex, destroyedCar, glm::translate(glm::vec3(20.f, -3.f, 30.f)) * glm::eulerAngleY(-1.57079f) * glm::scale(glm::vec3(0.3f)), texture::RUST);
+
+	drawObjectTexture(programTex, deadTree2, glm::translate(glm::vec3(40.f, -2.f, 48.f)) * glm::scale(glm::vec3(1.f)), texture::DEADTREE2);
+	drawObjectTexture(programTex, deadTree2, glm::translate(glm::vec3(32.f, -2.f, 48.f)) * glm::scale(glm::vec3(1.f)), texture::DEADTREE2);
+	drawObjectTexture(programTex, deadTree2, glm::translate(glm::vec3(24.f, -2.f, 48.f)) * glm::scale(glm::vec3(1.f)), texture::DEADTREE2);
+	drawObjectTexture(programTex, deadTree2, glm::translate(glm::vec3(16.f, -2.f, 48.f)) * glm::scale(glm::vec3(1.f)), texture::DEADTREE2);
+	drawObjectTexture(programTex, deadTree2, glm::translate(glm::vec3(8.f, -2.f, 48.f)) * glm::scale(glm::vec3(1.f)), texture::DEADTREE2);
+	drawObjectTexture(programTex, deadTree2, glm::translate(glm::vec3(0.f, -2.f, 48.f)) * glm::scale(glm::vec3(1.f)), texture::DEADTREE2);
 
 
-	drawObjectTexture(programTex, grass, glm::translate(glm::vec3(0.f, -4.5f, 0))*glm::eulerAngleX(-1.57079f) * glm::scale(glm::vec3(0.35f)), texture::GRASS);
+	drawObjectTexture(programTex, destroyedHouse, glm::translate(glm::vec3(20.f, -1.8f, -15.f)) * glm::eulerAngleY(-3.1415926536f) * glm::scale(glm::vec3(1.5f)), texture::DESTROYEDHOUSE);
+
+	drawObjectTexture(programTex, T72, glm::translate(glm::vec3(25.f, -1.f, 10.f)) * glm::eulerAngleY(-1.57079f) * glm::scale(glm::vec3(0.008f)), texture::RPG7);
+
+
+	//+- œrodek mapy
+
+	drawObjectTexture(programTex, Helicopter, glm::translate(glm::vec3(0.f, -0.5f, -30.f)) * glm::scale(glm::vec3(0.1f)), texture::HELICOPTER);
+
+	drawObjectTexture(programTex, T34, glm::translate(glm::vec3(0.f, 0.f, 25.f)) * glm::eulerAngleY(3.1415926536f) * glm::scale(glm::vec3(0.0006f)), texture::T34);
+
+	drawObjectTexture(programTex, House, glm::translate(glm::vec3(-38.f, -1.f, -30.f)) * glm::scale(glm::vec3(1.f)), texture::HOUSE);
+
+	drawObjectTexture(programTex, Branch, glm::translate(glm::vec3(-5.1f, -1.2f, 10.f)) * glm::eulerAngleZ(3.1415926536f) * glm::eulerAngleX(3.1415926536f) * glm::scale(glm::vec3(0.3f)), texture::BRANCH);
+
+	drawObjectTexture(programTex, Branch, glm::translate(glm::vec3(3.f, -1.2f, -5.f)) * glm::scale(glm::vec3(0.3f)), texture::BRANCH);
+
+	drawObjectTexture(programTex, deadTree1, glm::translate(glm::vec3(-3.f, -1.5f, 4.f)) * glm::scale(glm::vec3(1.f)), texture::DEADTREE1);
+	drawObjectTexture(programTex, deadTree1, glm::translate(glm::vec3(0.f, -1.6f, -20.f)) * glm::scale(glm::vec3(1.2f)), texture::DEADTREE1);
+	drawObjectTexture(programTex, deadTree1, glm::translate(glm::vec3(3.f, -1.5f, 0.f)) * glm::scale(glm::vec3(1.4f)), texture::DEADTREE1);
+	drawObjectTexture(programTex, deadTree1, glm::translate(glm::vec3(6.f, -1.2f, -10.f)) * glm::scale(glm::vec3(0.8f)), texture::DEADTREE1);
+	drawObjectTexture(programTex, deadTree1, glm::translate(glm::vec3(9.f, -1.f, -10.f)) * glm::scale(glm::vec3(1.2f)), texture::DEADTREE1);
+	drawObjectTexture(programTex, deadTree1, glm::translate(glm::vec3(2.f, -1.5f, 2.f)) * glm::scale(glm::vec3(1.f)), texture::DEADTREE1);
+	drawObjectTexture(programTex, deadTree1, glm::translate(glm::vec3(-2.f, -2.f, -15.f)) * glm::scale(glm::vec3(1.7f)), texture::DEADTREE1);
+
+	drawObjectTexture(programTex, Rocks, glm::translate(glm::vec3(-15.f, -1.7f, -15.f)) * glm::scale(glm::vec3(0.6f)), texture::ROCKS);
+
+	drawObjectTexture(programTex, Branch, glm::translate(glm::vec3(-5.f, -1.2f, -10.f)) * glm::eulerAngleX(1.57079f) * glm::scale(glm::vec3(0.3f)), texture::BRANCH);
+
+
+	drawObjectTexture(programTex, Rocks, glm::translate(glm::vec3(10.f, -1.3f, 15.f)) * glm::scale(glm::vec3(0.6f)), texture::ROCKS);
+	drawObjectTexture(programTex, Branch, glm::translate(glm::vec3(16.f, 1.5f, 10.5f)) * glm::eulerAngleX(1.57079f) * glm::eulerAngleX(-0.9f) * glm::scale(glm::vec3(0.3f)), texture::BRANCH);
+	drawObjectTexture(programTex, Rocks, glm::translate(glm::vec3(17.f, -1.f, 15.f)) * glm::scale(glm::vec3(0.6f)), texture::ROCKS);
+
+
+	drawObjectTexture(programTex, T34, glm::translate(glm::vec3(12.f, 0.5f, -20.f)) * glm::scale(glm::vec3(0.0006f)), texture::T34);
+
+
+	drawObjectTexture(programTex, deadTree3, glm::translate(glm::vec3(-30.f, -2.f, -48.f)) * glm::scale(glm::vec3(2.f)), texture::TREE);
+	drawObjectTexture(programTex, deadTree3, glm::translate(glm::vec3(-20.f, -2.f, -48.f)) * glm::scale(glm::vec3(2.f)), texture::TREE);
+	drawObjectTexture(programTex, deadTree3, glm::translate(glm::vec3(-10.f, -2.f, -48.f)) * glm::scale(glm::vec3(2.f)), texture::TREE);
+	drawObjectTexture(programTex, deadTree3, glm::translate(glm::vec3(0.f, -2.f, -48.f)) * glm::scale(glm::vec3(2.f)), texture::TREE);
+	drawObjectTexture(programTex, deadTree3, glm::translate(glm::vec3(10.f, -2.f, -48.f)) * glm::scale(glm::vec3(2.f)), texture::TREE);
+	drawObjectTexture(programTex, deadTree3, glm::translate(glm::vec3(20.f, -2.f, -48.f)) * glm::scale(glm::vec3(2.f)), texture::TREE);
+	drawObjectTexture(programTex, deadTree3, glm::translate(glm::vec3(30.f, -2.f, -48.f)) * glm::scale(glm::vec3(2.f)), texture::TREE);
+
+	drawObjectTexture(programTex, Rocks, glm::translate(glm::vec3(5.f, -1.3f, -10.f)) * glm::scale(glm::vec3(0.6f)), texture::ROCKS);
+
+	drawObjectTexture(programTex, destroyedCar, glm::translate(glm::vec3(-5.f, -2.1f, -6.f)) * glm::eulerAngleY(0.7853981634f) * glm::scale(glm::vec3(0.3f)), texture::RUST);
+
+
+	//lewa strona mapy
+	drawObjectTexture(programTex, Tree, glm::translate(glm::vec3(-38.f, -3.f, 6.f)) * glm::scale(glm::vec3(1.f)), texture::TREE);
+	drawObjectTexture(programTex, Tree, glm::translate(glm::vec3(-32.f, -3.f, 6.f)) * glm::scale(glm::vec3(1.f)), texture::TREE);
+	drawObjectTexture(programTex, Tree, glm::translate(glm::vec3(-26.f, -3.f, 6.f)) * glm::scale(glm::vec3(1.f)), texture::TREE);
+	drawObjectTexture(programTex, Tree, glm::translate(glm::vec3(-38.f, -3.f, 0.f)) * glm::scale(glm::vec3(1.f)), texture::TREE);
+	drawObjectTexture(programTex, Tree, glm::translate(glm::vec3(-38.f, -3.f, -6.f)) * glm::scale(glm::vec3(1.f)), texture::TREE);
+	drawObjectTexture(programTex, Tree, glm::translate(glm::vec3(-38.f, -3.f, -12.f)) * glm::scale(glm::vec3(1.f)), texture::TREE);
+	drawObjectTexture(programTex, Tree, glm::translate(glm::vec3(-38.f, -3.f, -18.f)) * glm::scale(glm::vec3(1.f)), texture::TREE);
+	drawObjectTexture(programTex, Tree, glm::translate(glm::vec3(-38.f, -3.f, -24.f)) * glm::scale(glm::vec3(1.f)), texture::TREE);
+	drawObjectTexture(programTex, Tree, glm::translate(glm::vec3(-32.f, -3.f, -24.f)) * glm::scale(glm::vec3(1.f)), texture::TREE);
+	drawObjectTexture(programTex, Tree, glm::translate(glm::vec3(-26.f, -3.f, -24.f)) * glm::scale(glm::vec3(1.f)), texture::TREE);
+
+	drawObjectTexture(programTex, T34, glm::translate(glm::vec3(-25.f, 0.8f, -30.f)) * glm::eulerAngleY(1.57079f) * glm::scale(glm::vec3(0.0006f)), texture::T34);
+
+	drawObjectTexture(programTex, destroyedHouse, glm::translate(glm::vec3(-30.f, -2.2f, -10.f)) * glm::eulerAngleY(3.1415926536f) * glm::scale(glm::vec3(1.f)), texture::DESTROYEDHOUSE);
+
+	drawObjectTexture(programTex, Well, glm::translate(glm::vec3(-25.f, -1.7f, -20.f)) * glm::eulerAngleY(3.1415926536f) * glm::scale(glm::vec3(0.012f)), texture::FLASHLIGHT);
+
+	drawObjectTexture(programTex, destroyedCar, glm::translate(glm::vec3(-30.f, -2.f, 0.f)) * glm::eulerAngleY(-1.57079f) * glm::scale(glm::vec3(0.3f)), texture::RUST);
+
+	drawObjectTexture(programTex, Rocks, glm::translate(glm::vec3(-20.f, -1.f, 15.f)) * glm::scale(glm::vec3(1.5f)), texture::ROCKS);
+
+	drawObjectTexture(programTex, destroyedHouse, glm::translate(glm::vec3(-10.f, -1.8f, 25.f)) * glm::eulerAngleY(1.57079f) * glm::scale(glm::vec3(1.f)), texture::DESTROYEDHOUSE);
+
+	drawObjectTexture(programTex, Rocks, glm::translate(glm::vec3(-30.f, -1.3f, -30.f)) * glm::scale(glm::vec3(1.8f)), texture::ROCKS);
+
+	drawObjectTexture(programTex, Helicopter, glm::translate(glm::vec3(-30.f, -0.3f, 25.f)) * glm::eulerAngleY(2.3561944902f) * glm::eulerAngleX(-0.15f) * glm::scale(glm::vec3(0.1f)), texture::HELICOPTER);
+
+	drawObjectTexture(programTex, T34, glm::translate(glm::vec3(-15.f, 0.1f, -10.f)) * glm::eulerAngleY(3.1415926536f) * glm::scale(glm::vec3(0.0006f)), texture::T34);
+
+	//Grass platform
+	drawObjectTexture(programTex, grass, glm::translate(glm::vec3(0.f, -4.5f, 0)) * glm::eulerAngleX(-1.57079f) * glm::scale(glm::vec3(0.35f)), texture::GRASS);
 }
 
 
@@ -238,14 +351,14 @@ void renderScene(GLFWwindow* window)
 		Jump_Animation(currentTime);
 	}
 	glDepthMask(GL_FALSE);
-	drawSKYBOX(); //ODKOMENTUJ TO I InitSkybox (w funkcji init) ¿eby mieæ skybox 
+	drawSKYBOX(); 
 	glDepthMask(GL_TRUE);
 
 	drawEquipment();
 	drawScene();
 
 	drawObjectTexture(programTex, Jet,
-		glm::eulerAngleY(-currentTime / 2.4f) * glm::translate(glm::vec3(32.f, 22.f, 0)) * glm::eulerAngleZ(1.05f) * glm::eulerAngleX(-0.18f) * glm::scale(glm::vec3(0.6f)), texture::FLASHLIGHT);
+		glm::eulerAngleY(-currentTime / 2.4f) * glm::translate(glm::vec3(32.f, 22.f, 0)) * glm::eulerAngleZ(-1.05f) * glm::eulerAngleX(-0.18f) * glm::scale(glm::vec3(0.6f)), texture::FLASHLIGHT);
 
 	glfwSwapBuffers(window);  	// Changes the color buffer (double buffering)
 }
@@ -273,6 +386,11 @@ void loadModelToContext(std::string path, Core::RenderContext& context)
 
 void init(GLFWwindow* window)
 {
+	//glm::mat4 mat = glm::eulerAngleX(4.f);
+	
+	//std::cout << glm::to_string(mat) << std::endl;
+
+
 	InitSkybox(); //ODKOMENTUJ TO I DrawSkybox (w render scene) ¿eby mieæ skybox 
 	 
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
@@ -291,24 +409,42 @@ void init(GLFWwindow* window)
 	program = shaderLoader.CreateProgram("shaders/OBJ_color_FogShader.vert", "shaders/OBJ_color_FogShader.frag");
 	skybox = shaderLoader.CreateProgram("shaders/Skybox_shader.vert", "shaders/Skybox_shader.frag");
 	
-
 	// MODELS
 	loadModelToContext("./models/Equipment/Rpg7.obj", RPG7_Context);
 	loadModelToContext("./models/Equipment/Flashlight.obj", FlashlightContext);
 	loadModelToContext("./models/cube.obj", cube);
+	loadModelToContext("./models/Vehicles/Destroyed_car.obj", destroyedCar);
+	loadModelToContext("./models/Vehicles/Destroyed_helicopter.obj", destroyedHelicopter);
+	loadModelToContext("./models/Vehicles/Helicopter.obj", Helicopter);
+	loadModelToContext("./models/Vehicles/Jet.obj", Jet);
 	loadModelToContext("./models/Vehicles/T72.obj", T72);
 	loadModelToContext("./models/Vehicles/T34.obj", T34);
-	loadModelToContext("./models/Vehicles/Helicopter.obj", Helicopter);
 	loadModelToContext("./models/grass.obj", grass);
-	loadModelToContext("./models/Vehicles/Jet.obj", Jet);
+	loadModelToContext("./models/Nature/Branch.obj", Branch);
+	loadModelToContext("./models/Nature/Conifer.obj", Conifer);
+	loadModelToContext("./models/Nature/Dead_tree_1.obj", deadTree1);
+	loadModelToContext("./models/Nature/Dead_tree_2.obj", deadTree2);
+	loadModelToContext("./models/Nature/Dead_tree_3.obj", deadTree3);
+	loadModelToContext("./models/Nature/Rocks.obj", Rocks);
+	loadModelToContext("./models/Nature/Tree.obj", Tree);
+	loadModelToContext("./models/Infrastructure/Destroyed_house.obj", destroyedHouse);
+	loadModelToContext("./models/Infrastructure/House.obj", House);
+	loadModelToContext("./models/Infrastructure/Well.obj", Well);
 
 	// TEXTURES
 	texture::RPG7 = Core::LoadTexture("./textures/forest_camuflage.png");
 	texture::FLASHLIGHT = Core::LoadTexture("./textures/metal.jpg");
-	texture::TANK = Core::LoadTexture("./textures/tank.jpg");
-	texture::HELICOPTER = Core::LoadTexture("./textures/helicopter.jpg");
-	texture::RUST = Core::LoadTexture("./textures/rust.jpg");
+	texture::HELICOPTER = Core::LoadTexture("./textures/Nature/army.png");
+	texture::T34 = Core::LoadTexture("./textures/tank.jpg");
 	texture::GRASS = Core::LoadTexture("./textures/grass.jpg");
+	texture::BRANCH = Core::LoadTexture("./textures/Nature/Branch/L1.jpg");
+	texture::DEADTREE1 = Core::LoadTexture("./textures/Nature/mossBranch.png");
+	texture::DEADTREE2 = Core::LoadTexture("./textures/Nature/spruceTrunk.jpg");
+	texture::ROCKS = Core::LoadTexture("./textures/Nature/Rocks/rocks_uw_BaseColor.png");
+	texture::DESTROYEDHOUSE = Core::LoadTexture("./textures/Nature/destroyedHause.jpg");
+	texture::HOUSE = Core::LoadTexture("./textures/WoodHouse.jpg");
+	texture::TREE = Core::LoadTexture("./textures/Nature/woodTrunk.jpg");
+	texture::RUST = Core::LoadTexture("./textures/rust.jpg");
 	
 }
 

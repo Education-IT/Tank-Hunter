@@ -65,7 +65,7 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 		else if (flashlight) {
 			onOff_FL = !onOff_FL;
 		}
-		// TODO ! SHOOTING RPG!
+		
 	}
 }
 
@@ -115,11 +115,7 @@ void processInput(GLFWwindow* window)
 	//Fast run (only when we don't aim)
 	if (!aiming && !animationAming) {
 		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
-//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!	
-/*!!!!!!!!!!!!!!!!!!!!*/run = 5;//ZMIEÑ PRZED ODDANIEM NA MAX 2.5! TO JEST TYLKO PO TO ¯EBY £ATWOIEJ BY£O BUDOWAC MAPE!
-//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//! //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//!//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		run = 2.4;	
 	}
 
 	if (gamepad) {
@@ -279,17 +275,17 @@ void processInput(GLFWwindow* window)
 		movement_animation();
 	}
 
-	if (cameraPos.x < -20) {
-		cameraPos.x = -20;
+	if (cameraPos.x < -25) {
+		cameraPos.x = -25;
 	}
-	if (cameraPos.x > 20) {
-		cameraPos.x = 20;
+	if (cameraPos.x > 25) {
+		cameraPos.x = 25;
 	}
-	if (cameraPos.z < -20) {
-		cameraPos.z = -20;
+	if (cameraPos.z < -25) {
+		cameraPos.z = -25;
 	}
-	if (cameraPos.z > 20) {
-		cameraPos.z = 20;
+	if (cameraPos.z > 25) {
+		cameraPos.z = 25;
 	}
 
 	// Where we look - there follows the equipment
