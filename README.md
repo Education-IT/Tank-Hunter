@@ -1,5 +1,5 @@
 
-![Tank-hunter the game](https://raw.githubusercontent.com/Education-IT/Tank-Hunter/main/banner.png?token=GHSAT0AAAAAAB5PZ3MSRWBSTITSNUPRPG3GY7LR6SA)
+![Tank-hunter the game](https://raw.githubusercontent.com/Education-IT/Tank-Hunter/main/banner.png?token=GHSAT0AAAAAAB5PZ3MTJEVZA2YJL6WD54TWY7LT22Q)
 ## Projekt zaliczeniowy na przedmiot - ***Grafika komputerowa*** - **UAM**
 
 > **Zrealizowano w piątym semestrze studiów informatycznych.**
