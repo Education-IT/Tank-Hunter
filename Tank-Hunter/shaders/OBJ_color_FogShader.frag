@@ -1,4 +1,4 @@
-#version 430 core
+#version 330 core
 
 float AMBIENT = 0.1;
 
