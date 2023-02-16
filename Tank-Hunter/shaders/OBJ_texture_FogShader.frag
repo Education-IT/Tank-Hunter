@@ -1,4 +1,4 @@
-#version 430 core
+#version 330 core
 
 float f = 30.0;
 float n = 5;
@@ -47,7 +47,7 @@ void main()
 		lightColor = vec3(1.0f , 0.45f , 0.35f); //SUNSET
 		lightDir = normalize(vec3( 0.6f , 0.5f , -0.3f ));  //SUNSET
 	}
-	float diff = max(dot(normal,lightDir), 0.0); //iloczyn skalarny (obliczenie konta miêdzy wektorem normalnym a promieniem swiatla) mniejszy jest k¹t miêdzy dwoma wektorami jednostkowymi, tym bardziej iloczyn skalarny jest nachylony w kierunku wartoœci 1. Gdy k¹t miêdzy dwoma wektorami wynosi 90 stopni, iloczyn skalarny przyjmuje wartoœæ 0 - im wiêkszy k¹t tym mniejszy wp³yw œwiat³a na kolor fragmentu. Jeœli k¹t miêdzy obydwoma wektorami jest wiêkszy ni¿ 90 stopni, wynik iloczynu skalarnego faktycznie stanie siê ujemny i otrzymamy ujemny komponent rozproszony. Z tego powodu u¿ywamy funkcji max
+	float diff = max(dot(normal,lightDir), 0.0); //iloczyn skalarny (obliczenie konta miÃªdzy wektorem normalnym a promieniem swiatla) mniejszy jest kÂ¹t miÃªdzy dwoma wektorami jednostkowymi, tym bardziej iloczyn skalarny jest nachylony w kierunku wartoÅ“ci 1. Gdy kÂ¹t miÃªdzy dwoma wektorami wynosi 90 stopni, iloczyn skalarny przyjmuje wartoÅ“Ã¦ 0 - im wiÃªkszy kÂ¹t tym mniejszy wpÂ³yw Å“wiatÂ³a na kolor fragmentu. JeÅ“li kÂ¹t miÃªdzy obydwoma wektorami jest wiÃªkszy niÂ¿ 90 stopni, wynik iloczynu skalarnego faktycznie stanie siÃª ujemny i otrzymamy ujemny komponent rozproszony. Z tego powodu uÂ¿ywamy funkcji max
 	vec3 diffuse = diff * lightColor;
 
 	//AMBIENT -> constant ambient lighting ///////////////////////////////////////////////////////////////
@@ -59,7 +59,7 @@ void main()
 	float specularStrength = 0.1;
 	
 	vec3 vViev = normalize(cameraPos-vertexPos); //wektor kierunku widoku
-	vec3 vRefl = reflect(-lightDir,normal); //wektor odbicia wzd³óŸ osi normlnej -> Funkcja reflect oczekuje, ¿e pierwszy wektor wskazuje od Ÿród³a œwiat³a w kierunku po³o¿enia fragmentu,
+	vec3 vRefl = reflect(-lightDir,normal); //wektor odbicia wzdÂ³Ã³Å¸ osi normlnej -> Funkcja reflect oczekuje, Â¿e pierwszy wektor wskazuje od Å¸rÃ³dÂ³a Å“wiatÂ³a w kierunku poÂ³oÂ¿enia fragmentu,
 	float spec = pow(max(dot(vViev,vRefl),0.0),36);
 	vec3 specular = specularStrength * spec * lightColor;
 
@@ -84,7 +84,7 @@ void main()
 		vec3 FLdiffuse = vec3(1.0f) * Diff_FL; // FlashLight light color * (...)
 		vec3 FLspecular = vec3(1.0f) * FL_spec;
 
-		FLambient *= attenuation * intensity; //tlumienie * intensywnosc (g³adkie przejscie promienia swiatla latarki)
+		FLambient *= attenuation * intensity; //tlumienie * intensywnosc (gÂ³adkie przejscie promienia swiatla latarki)
 		FLdiffuse *= attenuation * intensity;
 		FLspecular *= attenuation * intensity;
 
