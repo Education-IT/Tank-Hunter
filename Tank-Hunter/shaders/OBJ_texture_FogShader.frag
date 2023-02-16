@@ -80,15 +80,15 @@ void main()
 		float epsilon = cutOff - outerCutOff;
 		float intensity = clamp((theta - outerCutOff) / epsilon, 0.0, 1.0);
 
-		vec3 FLambient = vec3(0.0f);
+		
 		vec3 FLdiffuse = vec3(1.0f) * Diff_FL; // FlashLight light color * (...)
 		vec3 FLspecular = vec3(1.0f) * FL_spec;
 
-		FLambient *= attenuation * intensity; //tlumienie * intensywnosc (g³adkie przejscie promienia swiatla latarki)
+		//tlumienie * intensywnosc (g³adkie przejscie promienia swiatla latarki)
 		FLdiffuse *= attenuation * intensity;
 		FLspecular *= attenuation * intensity;
 
-		result = FLambient + FLdiffuse + FLspecular;
+		result =  FLdiffuse + FLspecular;
 	}
 	else{
 		result = vec3(0.f , 0.f , 0.f);
