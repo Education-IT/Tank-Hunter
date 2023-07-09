@@ -1,35 +1,30 @@
-
 ![Tank-hunter the game](https://raw.githubusercontent.com/Education-IT/Tank-Hunter/main/banner.png)
-## Projekt zaliczeniowy na przedmiot - ***Grafika komputerowa*** - **UAM**
+## Final project for the course - ***Computer Graphics*** - **UAM**
 
-> **Zrealizowano w piątym semestrze studiów informatycznych.**
+> **Completed during the fifth semester of computer science studies.**
 
- Tank-Hunter: jest to trójwymiarowa scena, stworzona za pomocą języka C++ i biblioteki grafiki czasu rzeczywistego: OpenGl. Scena ta, przedstawia strefę działań wojennych w której to możemy wcielić się w rolę żołnierza, wyposażonego w latarkę oraz RPG7. Zaimplementowane zostało poruszanie jak i rozglądanie się. Z założenia - projekt ma przypominać swoją budową, gry z gatunku FPS. Do utworzenia projektu zostały wykorzystane darmowe pliki ```.obj / .png / .jpg```  
+Tank-Hunter: It is a 3D scene created using the C++ language and the real-time graphics library: OpenGL. This scene represents a war zone where we can play as a soldier equipped with a flashlight and an RPG7. Movement and looking around have been implemented. The project is intended to resemble first-person shooter (FPS) games in its structure. Free ```.obj / .png / .jpg``` files were used to create the project.
 
-
-![C++](https://img.shields.io/badge/C++-00599C.svg?style=for-the-badge&logo=C++&logoColor=white) ![OpenGL](https://img.shields.io/badge/OpenGL-5586A4.svg?style=for-the-badge&logo=OpenGL&logoColor=white)  [ ![enter image description here](https://img.shields.io/badge/website-000000?style=for-the-badge&logo=About.me&logoColor=white)](https://education-it.pl/)
-
-
-## Projekt zawiera:
+![C++](https://img.shields.io/badge/C++-00599C.svg?style=for-the-badge&logo=C++&logoColor=white) ![OpenGL](https://img.shields.io/badge/OpenGL-5586A4.svg?style=for-the-badge&logo=OpenGL&logoColor=white) [![enter image description here](https://img.shields.io/badge/website-000000?style=for-the-badge&logo=About.me&logoColor=white)](https://education-it.pl/)
 
 
-Menu główne w którym możemy dokonać kilku zmian w ustawieniach - wpływających na rozgrywkę:
-* Włączenie / wyłączenie mgły. (szary kolor)
-* Noc / zachód słońca  -> W zależności od wyboru, czeka nas inny: skybox, koloru światła kierunkowego i jego pozycja.
+## Project includes:
 
-* Latarka - Spotlight (białe światło) - możliwość włączenia/wyłączenia za pomocą LPM. Animacja wyjmowania/chowania/chodzenia. 
-* RPG7 - możliwość celowania za pomocą PPM. Możliwość przeładowania za pomocą LPM. Animacja wyjmowania/chowania/chodzenia.
- 
-* Zaimplementowane poruszanie się i rozglądanie - zarówna za pomocą klawiatury i myszki, jak i za pomocą gamepada. Po wyborze gry za pomocą PADa, następuje funkcja sprawdzająca, czy na pewno został od podłączony - jeśli nie -> przełączamy się na tryb klawiatury i myszki. 
+Main menu where several settings affecting the gameplay can be changed:
+* Enable/disable fog (gray color).
+* Night/sunset mode -> Depending on the choice, different skybox, directional light color, and position are used.
 
-* Proste animacje symulujące efekt chodzenia, skoku oraz biegu. (Brak możliwości biegu podczas celowania / występuje możliwość skoku podczas celowania)
+* Flashlight - Spotlight (white light) - can be turned on/off using the left mouse button (LMB). It has animation for taking out, putting away, and walking with it.
+* RPG7 - can be aimed with the right mouse button (RMB). It can be reloaded using the LMB. It has animation for taking out, putting away, and walking with it.
 
-* Zabezpieczenie przed wyjściem poza obszar sceny. (Poza mapę)
+* Implemented movement and looking around - both with the keyboard and mouse, as well as with a gamepad. After choosing the game with a gamepad, there is a function that checks if it has been connected - if not, it switches to keyboard and mouse mode.
 
-* Śledzenie zmiennej "deltaTime", która przechowuje czas, który był potrzebny do wyrenderowania ostatniej klatki. Balansuje to rozgrywkę. Nie ma znaczenia, szybkość komputera -> prędkość poruszania się kamery będzie odpowiednio wyważona, dzięki czemu każdy użytkownik będzie miał takie samo doświadczenie z gry.
+* Simple animations simulating walking, jumping, and running. (No running while aiming / jumping is possible while aiming)
 
-*  Dodatkowe obiekty w ruchu -> Myśliwce latające nad naszą mapą.
+* Protection against going out of the scene area. (Out of the map)
 
-* Animacje powstały na skutek wymyślonych i zaimplementowanych prze zemnie funckji które działając na zmiennych globalnych i czasie - zmieniają odpowiednie macierze translacji i rotacji.
- 
+* Tracking the "deltaTime" variable, which holds the time it took to render the last frame. This balances the gameplay. The speed of camera movement will be adjusted accordingly, regardless of the computer's speed, ensuring that every user has the same game experience.
 
+* Additional moving objects - Fighter jets flying above our map.
+
+* Animations are created as a result of invented and implemented functions that act on global variables and time, changing the appropriate translation and rotation matrices.
