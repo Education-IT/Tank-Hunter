@@ -1,12 +1,12 @@
-![Tank-hunter the game](https://raw.githubusercontent.com/Education-IT/Tank-Hunter/main/banner.png)
+![Tank-hunter the game](https://raw.githubusercontent.com/Education-IT/Tank-Hunter/main//README-images/banner.png)
 <img src="https://raw.githubusercontent.com/Education-IT/Tank-Hunter/main/README-images/rpg.png"  height=300 align="right">
 ## Final project for the course - ***Computer Graphics*** - **UAM**
 
 > **Completed during the fifth semester of computer science studies.**
 
-Tank-Hunter: It is a 3D scene created using the C++ language and the real-time graphics library: OpenGL. This scene represents a war zone where we can play as a soldier equipped with a flashlight and an RPG7. Movement and looking around have been implemented. The project is intended to resemble first-person shooter (FPS) games in its structure. Free ```.obj / .png / .jpg``` files were used to create the project.
+Tank-Hunter: It is a 3D scene created using the C++ language and the real-time graphics library: OpenGL. This scene represents a war zone where we can play as a soldier equipped with a flashlight and an RPG7. Movement and looking around have been implemented. The project is intended to resemble first-person shooter (FPS) games in its structure. Free ```.obj / .png / .jpg``` files were used to create the project. YouTube Video: **https://www.youtube.com/watch?v=vlE_sZE7wsc&ab_channel=KrystianOsi%C5%84ski**
 
-![C++](https://img.shields.io/badge/C++-00599C.svg?style=for-the-badge&logo=C++&logoColor=white) ![OpenGL](https://img.shields.io/badge/OpenGL-5586A4.svg?style=for-the-badge&logo=OpenGL&logoColor=white) [![enter image description here](https://img.shields.io/badge/website-000000?style=for-the-badge&logo=About.me&logoColor=white)](https://education-it.pl/)
+![C++](https://img.shields.io/badge/C++-00599C.svg?style=for-the-badge&logo=C++&logoColor=white) ![OpenGL](https://img.shields.io/badge/OpenGL-5586A4.svg?style=for-the-badge&logo=OpenGL&logoColor=white) [![Youtube](https://img.shields.io/badge/YouTube-red?style=for-the-badge&logo=youtube&logoColor=white)](https://youtu.be/vlE_sZE7wsc)
 
 <img src="https://raw.githubusercontent.com/Education-IT/Tank-Hunter/main/README-images/scene.png" alt="scene" height=300 align="right">
 
