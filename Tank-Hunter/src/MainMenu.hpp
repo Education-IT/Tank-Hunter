@@ -45,8 +45,8 @@
         std::cout << R"(        \ \--'---_)";   color(blue);  std::cout << R"(                 ______            __      __  __            __)" << '\n'; color(white);
         std::cout << R"(        /\ \   / ~~\_)";   color(blue);  std::cout << R"(             /_  __/___ _____  / /__   / / / /_  ______  / /____  _____)" << '\n'; color(white);
         std::cout << R"(  ./---/__|=/_/------//~~~\)"; color(blue);  std::cout << R"(        / / / __ `/ __ \/ //_/  / /_/ / / / / __ \/ __/ _ \/ ___/)" << '\n'; color(white);
-        std::cout << R"( /___________________/O   O \)"; color(yellow); std::cout << R"(     / / / /_/ / / / / ,<    / __  / /_/ / / / / /_/  __/ /)" << '\n'; color(white);
-        std::cout << R"( (===(\_________(===(Oo o o O))"; color(yellow); std::cout << R"(   /_/  \__,_/_/ /_/_/|_|  /_/ /_/\__,_/_/ /_/\__/\___/_/)" << '\n'; color(white);
+        std::cout << R"( /___________________/O   O \)"; color(blue); std::cout << R"(     / / / /_/ / / / / ,<    / __  / /_/ / / / / /_/  __/ /)" << '\n'; color(white);
+        std::cout << R"( (===(\_________(===(Oo o o O))"; color(blue); std::cout << R"(   /_/  \__,_/_/ /_/_/|_|  /_/ /_/\__,_/_/ /_/\__/\___/_/)" << '\n'; color(white);
         std::cout << R"(  \~~~\____/     \---\Oo__o--)" << '\n';
         std::cout << R"(    ~~~~~~~       ~~~~~~~~~~)" << '\n';
 
@@ -280,8 +280,8 @@
 
         std::string mission = "\"Tank Hunt\"";
         std::string date = "day 4 - 3:29:00 AM";
-        std::string place = "Kharkiv Oblast";
-        std::string name = "Pvt. Morozov";
+        std::string place = "Poznan Poland";
+        std::string name = "pvt. Krystian Osinski";
         std::string tab_info[] = { mission,date,place,name };
 
         std::string obj = "Objective:";
@@ -449,47 +449,6 @@
 
     }
 
-    void gameWin() {
-
-        PlaySound(NULL, 0, 0);
-        if (sound) {
-            PlaySound(TEXT("Sounds/hymn-Ukrainy.wav"), NULL, SND_ASYNC | SND_LOOP);
-        }
-        Sleep(3240);
-        HWND console = GetConsoleWindow();
-        RECT ConsoleRect;
-        GetWindowRect(console, &ConsoleRect);
-        MoveWindow(console, ConsoleRect.left, ConsoleRect.top, 1085, 600, TRUE);
-
-        system("cls");
-       
-        std::cout << "\n\n";
-
-        color(white); std::cout << R"(                                    _          __)" << '\n';
-        std::cout << R"(     __  ______  __  __   _      __(_)___     / /)" << '\n';
-        std::cout << R"(    / / / / __ \/ / / /  | | /| / / / __ \   / /)" << '\n';
-        std::cout << R"(   / /_/ / /_/ / /_/ /   | |/ |/ / / / / /  /_/)" << '\n';
-        std::cout << R"(   \__, /\____/\__,_/    |__/|__/_/_/ /_/  (_))" << '\n';
-        std::cout << R"(  /____/)" << '\n';
-        std::cout << R"(     ________                    ______         )";  color(blue); std::cout << R"(__  ____              _)" << '\n'; color(white);
-        std::cout << R"(    / ____/ /___  _______  __   /_  __/___     )"; color(blue); std::cout << R"(/ / / / /___________ _(_)___  ___)" << '\n'; color(white);
-        std::cout << R"(   / / __/ / __ \/ ___/ / / /    / / / __ \   )"; color(blue); std::cout << R"(/ / / / //_/ ___/ __  / / __ \/ _ \)" << '\n'; color(white);
-        std::cout << R"(  / /_/ / / /_/ / /  / /_/ /    / / / /_/ /  )"; color(yellow); std::cout << R"(/ /_/ / ,< / /  / /_/ / / / / /  __/)" << '\n'; color(white);
-        std::cout << R"(  \____/_/\____/_/   \__, /    /_/  \____/   )"; color(yellow); std::cout << R"(\____/_/|_/_/   \__,_/_/_/ /_/\___/)" << '\n'; color(white);
-        std::cout << R"(                    /____/)" << '\n'; color(white);
-        std::cout << "\n\n      Press \"enter\" -> to back to main menu.\n";
-
-
-        do {
-            key = _getch();
-        }
-
-        while (key != '\r');
-        PlaySound(NULL, 0, 0);
-        system("cls");
-    }
-
-
     void start_menu() {
 
         
@@ -508,8 +467,8 @@
                 MainMenuLogic();
             }
             
-            //gameInfo(); // <- ODKOMENTUJ PRZED ODDANIEM PROJEKTU!
-            //Sleep(4000);
+            gameInfo(); // <- ODKOMENTUJ PRZED ODDANIEM PROJEKTU!
+            Sleep(4000);
             // TODO!!! --> DODAJ LOGIKĘ WYGRYWANIA!
             //gameWin();
             on_of = true;
