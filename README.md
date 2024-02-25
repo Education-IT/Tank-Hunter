@@ -1,4 +1,5 @@
 ![Tank-hunter the game](https://raw.githubusercontent.com/Education-IT/Tank-Hunter/main/banner.png)
+<img src="https://raw.githubusercontent.com/Education-IT/Tank-Hunter/main/README-images/rpg.png"  height=300 align="right">
 ## Final project for the course - ***Computer Graphics*** - **UAM**
 
 > **Completed during the fifth semester of computer science studies.**
@@ -7,6 +8,7 @@ Tank-Hunter: It is a 3D scene created using the C++ language and the real-time g
 
 ![C++](https://img.shields.io/badge/C++-00599C.svg?style=for-the-badge&logo=C++&logoColor=white) ![OpenGL](https://img.shields.io/badge/OpenGL-5586A4.svg?style=for-the-badge&logo=OpenGL&logoColor=white) [![enter image description here](https://img.shields.io/badge/website-000000?style=for-the-badge&logo=About.me&logoColor=white)](https://education-it.pl/)
 
+<img src="https://raw.githubusercontent.com/Education-IT/Tank-Hunter/main/README-images/scene.png" alt="scene" height=300 align="right">
 
 ## Project includes:
 
@@ -15,9 +17,14 @@ Main menu where several settings affecting the gameplay can be changed:
 * Night/sunset mode -> Depending on the choice, different skybox, directional light color, and position are used.
 
 * Flashlight - Spotlight (white light) - can be turned on/off using the left mouse button (LMB). It has animation for taking out, putting away, and walking with it.
+  
+
+  
 * RPG7 - can be aimed with the right mouse button (RMB). It can be reloaded using the LMB. It has animation for taking out, putting away, and walking with it.
 
 * Implemented movement and looking around - both with the keyboard and mouse, as well as with a gamepad. After choosing the game with a gamepad, there is a function that checks if it has been connected - if not, it switches to keyboard and mouse mode.
+  
+<img src="https://raw.githubusercontent.com/Education-IT/Tank-Hunter/main/README-images/flashlight.png"  height=300 align="right">
 
 * Simple animations simulating walking, jumping, and running. (No running while aiming / jumping is possible while aiming)
 
@@ -28,3 +35,6 @@ Main menu where several settings affecting the gameplay can be changed:
 * Additional moving objects - Fighter jets flying above our map.
 
 * Animations are created as a result of invented and implemented functions that act on global variables and time, changing the appropriate translation and rotation matrices.
+
+<img src="https://raw.githubusercontent.com/Education-IT/Tank-Hunter/main/README-images/main-menu.gif" alt="main-menu" align="left">
+
